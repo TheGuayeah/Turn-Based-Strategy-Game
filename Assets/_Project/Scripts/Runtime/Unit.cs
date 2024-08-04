@@ -15,6 +15,11 @@ public class Unit : MonoBehaviour
 
    private Vector3 targetPosition;
 
+   private void Awake()
+   {
+      targetPosition = transform.position;
+   }
+
    private void Update()
    {
       float distance = Vector3.Distance(transform.position, targetPosition);
@@ -33,15 +38,10 @@ public class Unit : MonoBehaviour
       {
          unitAnimator.SetBool(ANIMATOR_IS_WALKING, false);
       }
-
-      if (Input.GetMouseButtonDown(0))
-      {
-         Move(MouseWorld.GetPosition());
-      }
    }
 
-   private void Move(Vector3 _targetPosition)
+   public void Move(Vector3 newTargetPosition)
    {
-      targetPosition = _targetPosition;
+      targetPosition = newTargetPosition;
    }
 }
