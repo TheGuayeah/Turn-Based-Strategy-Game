@@ -2,8 +2,14 @@ using UnityEngine;
 
 public class Unit : MonoBehaviour
 {
+   private const string ANIMATOR_IS_WALKING = "IsWalking";
+
+   [SerializeField]
+   private Animator unitAnimator;
    [SerializeField]
    private float moveSpeed = 4f;
+   [SerializeField]
+   private float rotateSpeed = 25f;
    [SerializeField]
    private float stoppingDistance = 0.1f;
 
@@ -16,7 +22,16 @@ public class Unit : MonoBehaviour
       if(distance > stoppingDistance)
       {
          Vector3 moveDirection = (targetPosition - transform.position).normalized;
+
+         transform.forward = Vector3.Lerp(transform.forward, moveDirection, 
+                              rotateSpeed * Time.deltaTime);
+
          transform.position += moveDirection * moveSpeed * Time.deltaTime;
+         unitAnimator.SetBool(ANIMATOR_IS_WALKING, true);
+      }
+      else
+      {
+         unitAnimator.SetBool(ANIMATOR_IS_WALKING, false);
       }
 
       if (Input.GetMouseButtonDown(0))
