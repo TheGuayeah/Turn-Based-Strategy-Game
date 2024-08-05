@@ -1,8 +1,10 @@
 using System;
 using UnityEngine;
 
-public class UnitActionSystem : MonoBehaviour
+public class UnitActionSystem : Singleton<UnitActionSystem>
 {
+   public event EventHandler OnSelectedUnitchange;
+
    [SerializeField]
    private Unit selectedUnit;
    [SerializeField]
@@ -21,15 +23,26 @@ public class UnitActionSystem : MonoBehaviour
    {
       Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
       bool hasHit = Physics.Raycast(ray, out RaycastHit hitInfo, float.MaxValue, unitLayerMask);
-      
-      if(hasHit)
+
+      if (hasHit)
       {
          if (hitInfo.transform.TryGetComponent(out Unit unit))
          {
-            selectedUnit = unit;
+            SetSelectedUnit(unit);
             return true;
          }
       }
       return false;
+   }
+
+   private void SetSelectedUnit(Unit unit)
+   {
+      selectedUnit = unit;
+      OnSelectedUnitchange?.Invoke(this, EventArgs.Empty);
+   }
+
+   public Unit GetSelectedUnit()
+   {
+      return selectedUnit;
    }
 }
