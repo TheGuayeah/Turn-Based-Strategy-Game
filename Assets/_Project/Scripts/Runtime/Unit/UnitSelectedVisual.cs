@@ -2,17 +2,17 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(MeshRenderer))]
+[RequireComponent(typeof(CanvasGroup))]
 public class UnitSelectedVisual : MonoBehaviour
 {
    [SerializeField]
    private Unit unit;
    
-   private Image image;
+   private CanvasGroup canvasGroup;
 
    private void Awake()
    {
-      image = GetComponent<Image>();
+      canvasGroup = GetComponent<CanvasGroup>();
    }
 
    private void Start()
@@ -30,11 +30,11 @@ public class UnitSelectedVisual : MonoBehaviour
    {
       if (UnitActionSystem.Instance.GetSelectedUnit() == unit)
       {
-         image.enabled = true;
+         canvasGroup.alpha = 1f;
       }
       else
       {
-         image.enabled = false;
+         canvasGroup.alpha = 0f;
       }
    }
 }
