@@ -3,9 +3,7 @@ using UnityEngine;
 public class Testing : MonoBehaviour
 {
    [SerializeField]
-   private Transform gridDebugPrefab;
-
-   private GridSystem gridSystem;
+   private Unit unit;
 
    private void Start()
    {
@@ -14,6 +12,9 @@ public class Testing : MonoBehaviour
 
    private void Update()
    {
-      
+      if(Input.GetKeyDown(KeyCode.T))
+      {
+         unit.GetMoveAction().GetVelidActionGridPositions();
+      }
    }
 }

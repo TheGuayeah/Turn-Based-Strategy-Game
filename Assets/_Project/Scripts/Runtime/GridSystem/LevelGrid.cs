@@ -33,14 +33,30 @@ public class LevelGrid : Singleton<LevelGrid>
       gridObject.RemoveUnit(unit);
    }
 
+   public void UnitMovedGridPosition(Unit unit, GridPosition origin, GridPosition destination)
+   {
+      RemoveUnitAtGridPosition(origin, unit);
+      AddUnitAtGridPosition(destination, unit);
+   }
+
    public GridPosition GetGridPosition(Vector3 worldPosition)
    {
       return gridSystem.GetGridPosition(worldPosition);
    }
 
-   public void UnitMovedGridPosition(Unit unit, GridPosition origin, GridPosition destination)
+   public Vector3 GetWorldPosition(GridPosition gridPosition)
    {
-      RemoveUnitAtGridPosition(origin, unit);
-      AddUnitAtGridPosition(destination, unit);
+      return gridSystem.GetWorldPosition(gridPosition);
+   }
+
+   public bool IsValidGridPosition(GridPosition gridPosition)
+   {
+      return gridSystem.IsValidGridPosition(gridPosition);
+   }
+
+   public bool IsAnyUnitAtGridPosition(GridPosition gridPosition)
+   {
+      GridObject gridObject = gridSystem.GetGridObject(gridPosition);
+      return gridObject.HasAnyUnit();
    }
 }
