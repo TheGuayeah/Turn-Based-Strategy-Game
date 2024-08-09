@@ -54,6 +54,16 @@ public class LevelGrid : Singleton<LevelGrid>
       return gridSystem.IsValidGridPosition(gridPosition);
    }
 
+   public int GetWidth()
+   {
+      return gridSystem.GetWidth();
+   }
+
+   public int GetHeight()
+   {
+      return gridSystem.GetHeight();
+   }
+
    public bool IsAnyUnitAtGridPosition(GridPosition gridPosition)
    {
       GridObject gridObject = gridSystem.GetGridObject(gridPosition);
