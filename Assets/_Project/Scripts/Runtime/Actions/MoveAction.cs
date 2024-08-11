@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -43,11 +44,13 @@ public class MoveAction : BaseAction
       {
          unitAnimator.SetBool(ANIMATOR_IS_WALKING, false);
          isActive = false;
+         onActionComplete();
       }
    }
 
-   public void Move(GridPosition gridPosition)
+   public void Move(GridPosition gridPosition, Action onMoveComplete)
    {
+      onActionComplete = onMoveComplete;
       targetPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
       isActive = true;
    }

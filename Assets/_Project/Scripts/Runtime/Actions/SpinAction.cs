@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class SpinAction : BaseAction
@@ -15,13 +16,14 @@ public class SpinAction : BaseAction
       if (totalAngle >= 360f)
       {
          isActive = false;
+         onActionComplete();
       }
    }
 
-   public void Spin()
+   public void Spin(Action onSpinComplete)
    {
+      onActionComplete = onSpinComplete;
       isActive = true;
       totalAngle = 0f;
-      Debug.Log("Spinning");
    }
 }
