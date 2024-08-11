@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class UnitActionSystem : Singleton<UnitActionSystem>
 {
-   public event EventHandler OnSelectedUnitchange;
+   public event EventHandler OnSelectedUnitchanged;
 
    [SerializeField]
    private Unit selectedUnit;
@@ -65,7 +65,7 @@ public class UnitActionSystem : Singleton<UnitActionSystem>
    private void SetSelectedUnit(Unit unit)
    {
       selectedUnit = unit;
-      OnSelectedUnitchange?.Invoke(this, EventArgs.Empty);
+      OnSelectedUnitchanged?.Invoke(this, EventArgs.Empty);
    }
 
    public Unit GetSelectedUnit()

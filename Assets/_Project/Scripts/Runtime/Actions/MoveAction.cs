@@ -98,4 +98,9 @@ public class MoveAction : BaseAction
 
       return validActionGridPositions;
    }
+
+   public override string GetActionName()
+   {
+      return "Move";
+   }
 }

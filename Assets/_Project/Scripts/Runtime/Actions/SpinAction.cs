@@ -26,4 +26,9 @@ public class SpinAction : BaseAction
       isActive = true;
       totalAngle = 0f;
    }
+
+   public override string GetActionName()
+   {
+      return "Spin";
+   }
 }
