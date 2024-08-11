@@ -8,7 +8,7 @@ public class LevelGrid : Singleton<LevelGrid>
 
    private GridSystem gridSystem;
 
-   private new void Awake()
+   protected override void Awake()
    {
       base.Awake();
       gridSystem = new GridSystem(10, 10, 2f);
