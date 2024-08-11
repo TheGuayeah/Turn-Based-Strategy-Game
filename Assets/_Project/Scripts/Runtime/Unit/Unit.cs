@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 [RequireComponent(
@@ -6,6 +7,10 @@ using UnityEngine;
 )]
 public class Unit : MonoBehaviour
 {
+   public static event EventHandler OnAnyAcionPointsChanged;
+
+   private const int MAX_ACTION_POINTS = 2;
+
    private GridPosition gridPosition;
    private MoveAction moveAction;
    private SpinAction spinAction;
@@ -23,6 +28,8 @@ public class Unit : MonoBehaviour
    {
       gridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
       LevelGrid.Instance.AddUnitAtGridPosition(gridPosition, this);
+
+      TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
    }
 
    private void Update()
@@ -75,10 +82,19 @@ public class Unit : MonoBehaviour
    private void SpendActionPoints(int amount)
    {
       actionPoints -= amount;
+
+      OnAnyAcionPointsChanged?.Invoke(this, EventArgs.Empty);
    }
 
    public int GetActionPoints()
    {
       return actionPoints;
+   }
+
+   private void TurnSystem_OnTurnChanged(object sender, EventArgs e)
+   {
+      actionPoints = MAX_ACTION_POINTS;
+
+      OnAnyAcionPointsChanged?.Invoke(this, EventArgs.Empty);
    }
 }
