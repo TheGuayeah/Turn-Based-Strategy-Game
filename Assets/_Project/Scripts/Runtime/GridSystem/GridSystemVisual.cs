@@ -58,7 +58,7 @@ public class GridSystemVisual : Singleton<GridSystemVisual>
    private void UpdateGridVisual()
    {
       HideAllGridPositions();
-      Unit selectedUnit = UnitActionSystem.Instance.GetSelectedUnit();
-      ShowGridPositionList(selectedUnit.GetMoveAction().GetVelidActionGridPositions());
+      BaseAction selectedAction = UnitActionSystem.Instance.GetSelectedAction();
+      ShowGridPositionList(selectedAction.GetValidActionGridPositions());
    }
 }

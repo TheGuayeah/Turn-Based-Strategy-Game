@@ -16,7 +16,7 @@ public class Testing : MonoBehaviour
       {
          GridSystemVisual.Instance.HideAllGridPositions();
          GridSystemVisual.Instance.ShowGridPositionList(
-            unit.GetMoveAction().GetVelidActionGridPositions());
+            unit.GetMoveAction().GetValidActionGridPositions());
       }
    }
 }
