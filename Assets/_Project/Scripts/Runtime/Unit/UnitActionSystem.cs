@@ -4,7 +4,8 @@ using UnityEngine.EventSystems;
 
 public class UnitActionSystem : Singleton<UnitActionSystem>
 {
-   public event EventHandler OnSelectedUnitchanged;
+   public event EventHandler OnSelectedUnitChanged;
+   public event EventHandler OnSelectedActionChanged;
 
    [SerializeField]
    private Unit selectedUnit;
@@ -81,12 +82,14 @@ public class UnitActionSystem : Singleton<UnitActionSystem>
 
       SetSelectedAction(unit.GetMoveAction());
 
-      OnSelectedUnitchanged?.Invoke(this, EventArgs.Empty);
+      OnSelectedUnitChanged?.Invoke(this, EventArgs.Empty);
    }
 
    public void SetSelectedAction(BaseAction baseAction)
    {
       selectedAction = baseAction;
+
+      OnSelectedActionChanged?.Invoke(this, EventArgs.Empty);
    }
 
    public Unit GetSelectedUnit()
