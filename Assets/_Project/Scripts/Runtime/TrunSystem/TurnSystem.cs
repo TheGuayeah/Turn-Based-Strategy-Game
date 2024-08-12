@@ -6,10 +6,13 @@ public class TurnSystem : Singleton<TurnSystem>
    public event EventHandler OnTurnChanged;
 
    private int turnNumber;
+   private bool isPlayerTurn = true;
 
    public void NextTurn()
    {
-     turnNumber++;
+      turnNumber++;
+
+      isPlayerTurn = !isPlayerTurn;
 
       OnTurnChanged?.Invoke(this, EventArgs.Empty);
    }
@@ -17,5 +20,10 @@ public class TurnSystem : Singleton<TurnSystem>
    public int GetTurnNumber()
    {
       return turnNumber;
+   }
+
+   public bool IsPlayerTurn()
+   {
+      return isPlayerTurn;
    }
 }

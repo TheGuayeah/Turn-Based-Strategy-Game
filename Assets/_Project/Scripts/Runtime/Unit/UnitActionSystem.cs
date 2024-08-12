@@ -25,6 +25,8 @@ public class UnitActionSystem : Singleton<UnitActionSystem>
    {
       if (isBusy) return;
 
+      if(!TurnSystem.Instance.IsPlayerTurn()) return;
+
       if (EventSystem.current.IsPointerOverGameObject()) return;
 
       if (TryHandleUnitSelection()) return;
@@ -72,6 +74,8 @@ public class UnitActionSystem : Singleton<UnitActionSystem>
             if (hitInfo.transform.TryGetComponent(out Unit unit))
             {
                if (unit == selectedUnit) return false;
+               if (unit.IsEnemy()) return false;
+
                SetSelectedUnit(unit);
                return true;
             }
