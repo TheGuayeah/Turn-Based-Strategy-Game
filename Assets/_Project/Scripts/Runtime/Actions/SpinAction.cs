@@ -16,15 +16,13 @@ public class SpinAction : BaseAction
       totalAngle += angle;
       if (totalAngle >= 360f)
       {
-         isActive = false;
-         onActionComplete();
+         ActionComplete();
       }
    }
 
    public override void TakeAction(GridPosition gridPosition, Action onSpinComplete)
    {
-      onActionComplete = onSpinComplete;
-      isActive = true;
+      ActionStart(onSpinComplete);
       totalAngle = 0f;
    }
 

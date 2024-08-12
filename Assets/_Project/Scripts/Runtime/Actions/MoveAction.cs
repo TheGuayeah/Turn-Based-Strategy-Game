@@ -43,16 +43,15 @@ public class MoveAction : BaseAction
       else
       {
          unitAnimator.SetBool(ANIMATOR_IS_WALKING, false);
-         isActive = false;
-         onActionComplete();
+
+         ActionComplete();
       }
    }
 
    public override void TakeAction(GridPosition gridPosition, Action onMoveComplete)
    {
-      onActionComplete = onMoveComplete;
+      ActionStart(onMoveComplete);
       targetPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
-      isActive = true;
    }
 
    public override List<GridPosition> GetValidActionGridPositions()
