@@ -7,6 +7,10 @@ public class UnitAnimator : MonoBehaviour
 
    [SerializeField]
    private Animator animator;
+   [SerializeField]
+   private Transform bulletPrefab;
+   [SerializeField]
+   private Transform shootPoint;
 
    private void Awake()
    {
@@ -31,8 +35,16 @@ public class UnitAnimator : MonoBehaviour
       animator.SetBool(IS_WALKING, false);
    }
 
-   private void ShootAction_OnShoot(object sender, System.EventArgs e)
+   private void ShootAction_OnShoot(object sender, ShootAction.OnShootEventArgs e)
    {
       animator.SetTrigger(SHOOT);
+
+      Transform bulletTransform = 
+         Instantiate(bulletPrefab, shootPoint.position, Quaternion.identity);
+      BulletProjectile bulletProjectile = bulletTransform.GetComponent<BulletProjectile>();
+      
+      Vector3 shootAtPosition = e.targetUnit.GetWorldPosition();
+      shootAtPosition.y = shootPoint.position.y;
+      bulletProjectile.Setup(shootAtPosition);
    }
 }
