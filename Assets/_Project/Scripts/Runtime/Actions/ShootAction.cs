@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ShootAction : BaseAction
 {
+   public event EventHandler OnShoot;
+
    [SerializeField]
    private int maxShootDistance = 7;
    [SerializeField]
@@ -86,6 +88,7 @@ public class ShootAction : BaseAction
 
    private void Shoot()
    {
+      OnShoot?.Invoke(this, EventArgs.Empty);
       targetUnit.TakeDamage();
    }
 

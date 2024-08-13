@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3997434603837355595}
   - component: {fileID: 7751908768733360292}
   - component: {fileID: 2831979548275372669}
+  - component: {fileID: 8212377895472180133}
   - component: {fileID: 1023268702295876635}
   - component: {fileID: 7878817063362744648}
   - component: {fileID: 5659614985639337943}
@@ -68,6 +69,19 @@ MonoBehaviour:
   stoppingDistance: 0.1
   rotateSpeed: 25
   maxMoveDistance: 4
+--- !u!114 &8212377895472180133
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 385671037074630959}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 595e78201316c5643889a3b0ec4d1536, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 7357158973137176286}
 --- !u!114 &1023268702295876635
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -92,6 +106,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfdb9029b4cd4494c87743078773f9f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxShootDistance: 7
+  rotateSpeed: 25
 --- !u!65 &5659614985639337943
 BoxCollider:
   m_ObjectHideFlags: 0
