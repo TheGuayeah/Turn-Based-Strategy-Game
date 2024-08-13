@@ -3,7 +3,8 @@ using UnityEngine;
 
 [RequireComponent(
    typeof(MoveAction), 
-   typeof(SpinAction)
+   typeof(SpinAction),
+   typeof(HealthSystem)
 )]
 public class Unit : MonoBehaviour
 {
@@ -15,13 +16,15 @@ public class Unit : MonoBehaviour
    private bool isEnemy;
 
    private GridPosition gridPosition;
+   private HealthSystem healthSystem;
    private MoveAction moveAction;
    private SpinAction spinAction;
    private BaseAction[] baseActions;
-   private int actionPoints = 2;
+   private int actionPoints = MAX_ACTION_POINTS;
 
    private void Awake()
    {
+      healthSystem = GetComponent<HealthSystem>();
       moveAction = GetComponent<MoveAction>();
       spinAction = GetComponent<SpinAction>();
       baseActions = GetComponents<BaseAction>();
@@ -33,6 +36,8 @@ public class Unit : MonoBehaviour
       LevelGrid.Instance.AddUnitAtGridPosition(gridPosition, this);
 
       TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
+
+      healthSystem.OnDead += HealthSystem_OnDead;
    }
 
    private void Update()
@@ -115,8 +120,14 @@ public class Unit : MonoBehaviour
       return isEnemy;
    }
 
-   public void TakeDamage()
+   public void TakeDamage(int damage)
    {
-      Debug.Log("Unit " + name + " took damage!");
+      healthSystem.TakeDamage(damage);
+   }
+
+   private void HealthSystem_OnDead(object sender, EventArgs e)
+   {
+      LevelGrid.Instance.RemoveUnitAtGridPosition(gridPosition, this);
+      Destroy(gameObject);
    }
 }

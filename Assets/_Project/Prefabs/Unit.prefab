@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3997434603837355595}
   - component: {fileID: 7751908768733360292}
+  - component: {fileID: 6680417434734676327}
   - component: {fileID: 2831979548275372669}
   - component: {fileID: 8212377895472180133}
   - component: {fileID: 1023268702295876635}
@@ -52,6 +53,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isEnemy: 0
+--- !u!114 &6680417434734676327
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 385671037074630959}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 965b2d180283d8943850e8c4d6cc2b70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fullHealthColor: {fileID: 2100000, guid: bc9cd8e6bd859754f9292d2af1f9697e, type: 2}
+  halfHealthColor: {fileID: 2100000, guid: 264bd275ef1f2c949b660aae61af5ecc, type: 2}
+  lowHealthColor: {fileID: 2100000, guid: aadda83b9d91081438d4c73c1d7eeaaa, type: 2}
+  healthBarImage: {fileID: 3739764651990557687}
+  maxHealth: 100
 --- !u!114 &2831979548275372669
 MonoBehaviour:
   m_ObjectHideFlags: 0

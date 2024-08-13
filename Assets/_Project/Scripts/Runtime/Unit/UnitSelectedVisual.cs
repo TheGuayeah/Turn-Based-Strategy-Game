@@ -37,4 +37,9 @@ public class UnitSelectedVisual : MonoBehaviour
          canvasGroup.alpha = 0f;
       }
    }
+
+   private void OnDestroy()
+   {
+      UnitActionSystem.Instance.OnSelectedUnitChanged -= UnitActionSystem_OnSelectedUnitChange;
+   }
 }
