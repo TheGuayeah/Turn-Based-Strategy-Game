@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 [RequireComponent(
-   typeof(MoveAction), 
+   typeof(MoveAction),
    typeof(SpinAction),
    typeof(HealthSystem)
 )]
