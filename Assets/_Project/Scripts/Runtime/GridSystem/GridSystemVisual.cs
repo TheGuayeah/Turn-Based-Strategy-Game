@@ -49,6 +49,9 @@ public class GridSystemVisual : Singleton<GridSystemVisual>
 
    public void ShowGridPositionList(List<GridPosition> gridPositionList)
    {
+      Unit selectedUnit = UnitActionSystem.Instance.GetSelectedUnit();
+      if (selectedUnit.IsEnemy()) return;
+
       foreach (GridPosition gridPosition in gridPositionList)
       {
          gridSystemVisualSingles[gridPosition.x, gridPosition.z].Show();

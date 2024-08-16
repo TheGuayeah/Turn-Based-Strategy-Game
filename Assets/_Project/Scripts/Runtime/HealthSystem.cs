@@ -5,16 +5,9 @@ using UnityEngine.UI;
 public class HealthSystem : MonoBehaviour
 {
    public event EventHandler OnDead;
+   public event EventHandler OnTakeDamage;
    //public event EventHandler OnHealed;
 
-   [SerializeField]
-   private Material fullHealthColor;
-   [SerializeField]
-   private Material halfHealthColor;
-   [SerializeField]
-   private Material lowHealthColor;
-   [SerializeField]
-   private Image healthBarImage;
    [SerializeField]
    private int maxHealth = 100;
 
@@ -23,8 +16,6 @@ public class HealthSystem : MonoBehaviour
    private void Awake()
    {
       health = maxHealth;
-      healthBarImage.fillAmount = 1;
-      SetHealthColor();
    }
 
    public void TakeDamage(int damage)
@@ -36,27 +27,17 @@ public class HealthSystem : MonoBehaviour
          health = 0;
          Die();
       }
-      healthBarImage.fillAmount = (float)health / maxHealth;
-      SetHealthColor();
+      OnTakeDamage?.Invoke(this, EventArgs.Empty);
    }
 
-   private void SetHealthColor()
+   
+
+   public float GetHealthNormalized()
    {
-      if (health >= (maxHealth / 3) * 2)
-      {
-         healthBarImage.material = fullHealthColor;
-      }
-      else if (health >= maxHealth / 3)
-      {
-         healthBarImage.material = halfHealthColor;
-      }
-      else
-      {
-         healthBarImage.material = lowHealthColor;
-      }
+      return (float)health / maxHealth;
    }
 
-      private void Die()
+   private void Die()
    {
       OnDead?.Invoke(this, EventArgs.Empty);
    }

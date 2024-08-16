@@ -8,6 +8,7 @@ using UnityEngine;
 )]
 public class Unit : MonoBehaviour
 {
+   public event EventHandler OnMouseOverUnitChanged;
    public static event EventHandler OnAnyAcionPointsChanged;
 
    private const int MAX_ACTION_POINTS = 2;
@@ -21,6 +22,7 @@ public class Unit : MonoBehaviour
    private SpinAction spinAction;
    private BaseAction[] baseActions;
    private int actionPoints = MAX_ACTION_POINTS;
+   private bool isMouseOver;
 
    private void Awake()
    {
@@ -49,6 +51,18 @@ public class Unit : MonoBehaviour
          LevelGrid.Instance.UnitMovedGridPosition(this, gridPosition, newGridPosition);
          gridPosition = newGridPosition;
       }
+   }
+
+   private void OnMouseEnter()
+   {
+      isMouseOver = true;
+      OnMouseOverUnitChanged?.Invoke(this, EventArgs.Empty);
+   }
+
+   private void OnMouseExit()
+   {
+      isMouseOver = false;
+      OnMouseOverUnitChanged?.Invoke(this, EventArgs.Empty);
    }
 
    public MoveAction GetMoveAction()
@@ -113,6 +127,12 @@ public class Unit : MonoBehaviour
 
          OnAnyAcionPointsChanged?.Invoke(this, EventArgs.Empty);
       }
+   }
+
+   public bool IsMouseOver()
+   {
+      Debug.Log("IsMouseOver: " + isMouseOver);
+      return isMouseOver;
    }
 
    public bool IsEnemy()

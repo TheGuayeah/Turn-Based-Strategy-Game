@@ -4,6 +4,7 @@ using UnityEngine.EventSystems;
 
 public class UnitActionSystem : Singleton<UnitActionSystem>
 {
+   //public event EventHandler OnMouseOverUnitChanged;
    public event EventHandler OnSelectedUnitChanged;
    public event EventHandler OnSelectedActionChanged;
    public event EventHandler OnActionStarted;
@@ -69,19 +70,19 @@ public class UnitActionSystem : Singleton<UnitActionSystem>
          Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
          bool hasHit = Physics.Raycast(ray, out RaycastHit hitInfo, float.MaxValue, unitLayerMask);
 
-         if (hasHit)
-         {
-            if (hitInfo.transform.TryGetComponent(out Unit unit))
-            {
-               if (unit == selectedUnit) return false;
-               if (unit.IsEnemy()) return false;
+         if (!hasHit) return false;
 
-               SetSelectedUnit(unit);
-               return true;
-            }
+         if (hitInfo.transform.TryGetComponent(out Unit unit))
+         {
+            if (unit == selectedUnit) return false;
+
+            //We want to select enemies as well
+            //if (unit.IsEnemy()) return false;
+            SetSelectedUnit(unit);
+            return true;
          }
       }
-      
+
       return false;
    }
 

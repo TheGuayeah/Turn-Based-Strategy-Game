@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using UnityEngine.UI;
 
 [RequireComponent(typeof(CanvasGroup))]
 public class UnitSelectedVisual : MonoBehaviour
@@ -18,10 +17,16 @@ public class UnitSelectedVisual : MonoBehaviour
    private void Start()
    {
       UnitActionSystem.Instance.OnSelectedUnitChanged += UnitActionSystem_OnSelectedUnitChange;
+      unit.OnMouseOverUnitChanged += Unit_OnMouseOverUnitChanged;
       UpdateVisual();
    }
 
    private void UnitActionSystem_OnSelectedUnitChange(object sender, EventArgs e)
+   {
+      UpdateVisual();
+   }
+
+   private void Unit_OnMouseOverUnitChanged(object sender, EventArgs e)
    {
       UpdateVisual();
    }
@@ -34,7 +39,8 @@ public class UnitSelectedVisual : MonoBehaviour
       }
       else
       {
-         canvasGroup.alpha = 0f;
+         if (unit.IsMouseOver()) canvasGroup.alpha = 1f;
+         else canvasGroup.alpha = 0f;
       }
    }
 
