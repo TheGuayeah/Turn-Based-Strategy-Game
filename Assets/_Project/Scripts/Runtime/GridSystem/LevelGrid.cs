@@ -1,8 +1,11 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class LevelGrid : Singleton<LevelGrid>
 {
+   public event EventHandler OnAnyUnitMovedGridPosition;
+
    [SerializeField]
    private Transform gridDebugPrefab;
 
@@ -37,6 +40,7 @@ public class LevelGrid : Singleton<LevelGrid>
    {
       RemoveUnitAtGridPosition(origin, unit);
       AddUnitAtGridPosition(destination, unit);
+      OnAnyUnitMovedGridPosition?.Invoke(this, EventArgs.Empty);
    }
 
    public GridPosition GetGridPosition(Vector3 worldPosition)

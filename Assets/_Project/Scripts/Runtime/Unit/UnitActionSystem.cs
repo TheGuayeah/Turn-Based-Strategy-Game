@@ -4,7 +4,6 @@ using UnityEngine.EventSystems;
 
 public class UnitActionSystem : Singleton<UnitActionSystem>
 {
-   //public event EventHandler OnMouseOverUnitChanged;
    public event EventHandler OnSelectedUnitChanged;
    public event EventHandler OnSelectedActionChanged;
    public event EventHandler OnActionStarted;
