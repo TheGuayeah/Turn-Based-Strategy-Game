@@ -146,8 +146,6 @@ public class ShootAction : BaseAction
 
    public override void TakeAction(GridPosition gridPosition, Action onShootComplete)
    {
-      ActionStart(onShootComplete);
-
       targetUnit = LevelGrid.Instance.GetUnitFromGridPosition(gridPosition);
 
       state = State.Aiming;
@@ -155,5 +153,12 @@ public class ShootAction : BaseAction
       stateTimer = aimingDuration;
 
       canShoot = true;
+
+      ActionStart(onShootComplete);
+   }
+
+   public Unit GetTargetUnit()
+   {
+      return targetUnit;
    }
 }

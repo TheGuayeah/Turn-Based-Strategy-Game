@@ -131,7 +131,6 @@ public class Unit : MonoBehaviour
 
    public bool IsMouseOver()
    {
-      Debug.Log("IsMouseOver: " + isMouseOver);
       return isMouseOver;
    }
 
