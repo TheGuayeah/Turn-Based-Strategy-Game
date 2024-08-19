@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,6 +8,8 @@ public class UnitWorldUI : MonoBehaviour
 	private Unit unit;
 	[SerializeField]
 	private Image healthBarImage;
+   [SerializeField]
+   private TextMeshProUGUI unitName;
 	[SerializeField]
 	private HealthSystem healthSystem;
    [SerializeField]
@@ -19,6 +22,7 @@ public class UnitWorldUI : MonoBehaviour
    private void Start()
    {
       healthSystem.OnTakeDamage += HealthSystem_OnTakeDamage;
+      if (unitName != null) unitName.SetText(unit.name);
       UpdateHealthBar();
 	}
 

@@ -33,19 +33,31 @@ public class UnitSelectedVisual : MonoBehaviour
 
    private void UpdateVisual()
    {
-      if (UnitActionSystem.Instance.GetSelectedUnit() == unit)
+      Unit selectedUnit = UnitActionSystem.Instance.GetSelectedUnit();
+      UnitSelectedVisual selectedVisual =
+            selectedUnit.GetComponentInChildren<UnitSelectedVisual>();
+      bool isSelectedUnit = selectedUnit == unit;
+
+      if (!isSelectedUnit && unit.IsMouseOver())
       {
          canvasGroup.alpha = 1f;
+         if (selectedUnit.IsEnemy() && unit.IsEnemy())
+            selectedVisual.canvasGroup.alpha = 0f;
+      }
+      else if (!isSelectedUnit && !unit.IsMouseOver())
+      {
+         canvasGroup.alpha = 0f;
+         selectedVisual.canvasGroup.alpha = 1f;
       }
       else
       {
-         if (unit.IsMouseOver()) canvasGroup.alpha = 1f;
-         else canvasGroup.alpha = 0f;
+         canvasGroup.alpha = 1f;
       }
    }
 
    private void OnDestroy()
    {
       UnitActionSystem.Instance.OnSelectedUnitChanged -= UnitActionSystem_OnSelectedUnitChange;
+      unit.OnMouseOverUnitChanged -= Unit_OnMouseOverUnitChanged;
    }
 }
