@@ -138,7 +138,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfdb9029b4cd4494c87743078773f9f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxShootDistance: 7
+  maxShootDistance: 4
   rotateSpeed: 25
 --- !u!65 &5659614985639337943
 BoxCollider:
@@ -384,6 +384,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unit: {fileID: 7751908768733360292}
   healthBarImage: {fileID: 3739764651990557687}
+  unitName: {fileID: 0}
   healthSystem: {fileID: 6680417434734676327}
   fullHealthColor: {fileID: 2100000, guid: bc9cd8e6bd859754f9292d2af1f9697e, type: 2}
   halfHealthColor: {fileID: 2100000, guid: 264bd275ef1f2c949b660aae61af5ecc, type: 2}

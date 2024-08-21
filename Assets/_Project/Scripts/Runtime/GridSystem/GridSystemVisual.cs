@@ -70,9 +70,9 @@ public class GridSystemVisual : Singleton<GridSystemVisual>
    {
       List<GridPosition> gridPositions = new List<GridPosition>();
 
-      for (int x = 0; x <= range; x++)
+      for (int x = -range; x <= range; x++)
       {
-         for (int z = 0; z <= range; z++)
+         for (int z = -range; z <= range; z++)
          {
             GridPosition newGridPosition = gridPosition + new GridPosition(x, z);
 
