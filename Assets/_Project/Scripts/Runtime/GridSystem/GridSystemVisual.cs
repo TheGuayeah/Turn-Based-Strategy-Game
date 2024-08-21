@@ -51,6 +51,7 @@ public class GridSystemVisual : Singleton<GridSystemVisual>
 
       UnitActionSystem.Instance.OnSelectedActionChanged += UnitActionSystem_OnSelectedActionChanged;
       LevelGrid.Instance.OnAnyUnitMovedGridPosition += LevelGrid_OnAnyUnitMovedGridPosition;
+      Unit.OnAnyUnitDead += Unit_OnAnyUnitDead;
       
       UpdateGridVisual();
    }
@@ -135,6 +136,11 @@ public class GridSystemVisual : Singleton<GridSystemVisual>
    }
 
    private void LevelGrid_OnAnyUnitMovedGridPosition(object sender, EventArgs e)
+   {
+      UpdateGridVisual();
+   }
+
+   private void Unit_OnAnyUnitDead(object sender, EventArgs e)
    {
       UpdateGridVisual();
    }
