@@ -63,6 +63,12 @@ public class EnemyAI : MonoBehaviour
    {
       if (TurnSystem.Instance.IsPlayerTurn()) return;
 
+      if (sender.GetType() == typeof(TurnSystem))
+      {
+         Unit nextEnemyUnit = UnitManager.Instance.GetEnemyUnits()[0];
+         UnitActionSystem.Instance.SetSelectedUnit(nextEnemyUnit);
+      }
+
       state = State.TakingTurn;
       timer = 2f;
    }
@@ -76,20 +82,51 @@ public class EnemyAI : MonoBehaviour
             return true;
          }
       }
+
+      Unit nextFriendlyUnit = UnitManager.Instance.GetFriendlyUnits()[0];
+      UnitActionSystem.Instance.SetSelectedUnit(nextFriendlyUnit);
       return false;
    }
 
    private bool TryTakeEnemyAIAction(Unit enemyUnit, Action onEnemyAIActionComplete)
    {
-      SpinAction spinAction = enemyUnit.GetSpinAction();
+      EnemyAIAction bestEnemyAIAction = null;
+      BaseAction bestAction = null;
 
-      GridPosition actionGridPosition = enemyUnit.GetGridPosition();
+      foreach (BaseAction action in enemyUnit.GetBaseActions())
+      {
+         if (!enemyUnit.HasEnoughActionPoints(action))
+         {
+            continue;
+         }
 
-      if (!spinAction.IsValidActionGridPosition(actionGridPosition)) return false;
+         if(bestEnemyAIAction == null)
+         {
+            bestEnemyAIAction = action.GetBestEnemyAIAction();
+            bestAction = action;
+         }
+         else
+         {
+            EnemyAIAction newEnemyAIAction = action.GetBestEnemyAIAction();
+            if (newEnemyAIAction != null &&
+               newEnemyAIAction.actionValue > bestEnemyAIAction.actionValue)
+            {
+               bestEnemyAIAction = newEnemyAIAction;
+               bestAction = action;
+            }
+         }
+      }
 
-      if (!enemyUnit.TrySpendActionPoints(spinAction)) return false;
-
-      spinAction.TakeAction(actionGridPosition, onEnemyAIActionComplete);
-      return true;
+      if (bestEnemyAIAction != null &&
+         enemyUnit.TrySpendActionPoints(bestAction))
+      {
+         bestAction.TakeAction(
+            bestEnemyAIAction.gridPosition, onEnemyAIActionComplete);
+         return true;
+      }
+      else
+      {
+         return false;
+      }
    }
 }

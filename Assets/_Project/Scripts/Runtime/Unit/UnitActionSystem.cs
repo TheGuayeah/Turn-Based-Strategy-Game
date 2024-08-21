@@ -85,11 +85,11 @@ public class UnitActionSystem : Singleton<UnitActionSystem>
       return false;
    }
 
-   private void SetSelectedUnit(Unit unit)
+   public void SetSelectedUnit(Unit unit)
    {
       selectedUnit = unit;
 
-      SetSelectedAction(unit.GetMoveAction());
+      SetSelectedAction(unit.GetBaseActions()[0]);
 
       OnSelectedUnitChanged?.Invoke(this, EventArgs.Empty);
    }

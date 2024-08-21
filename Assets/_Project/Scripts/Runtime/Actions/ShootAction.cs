@@ -99,6 +99,7 @@ public class ShootAction : BaseAction
          targetUnit = targetUnit,
          shootingUnit = unit
       });
+      GetValidActionGridPositions();
       targetUnit.TakeDamage(40);
    }
 
@@ -109,8 +110,13 @@ public class ShootAction : BaseAction
 
    public override List<GridPosition> GetValidActionGridPositions()
    {
-      List<GridPosition> validActionGridPositions = new List<GridPosition>();
       GridPosition unitGridPosition = unit.GetGridPosition();
+      return GetValidActionGridPositions(unitGridPosition);
+   }
+
+   public List<GridPosition> GetValidActionGridPositions(GridPosition unitGridPosition)
+   {
+      List<GridPosition> validActionGridPositions = new List<GridPosition>();
 
       for (int x = -maxShootDistance; x <= maxShootDistance; x++)
       {
@@ -134,8 +140,12 @@ public class ShootAction : BaseAction
 
             Unit targetUnit = LevelGrid.Instance.GetUnitFromGridPosition(testGridPosition);
 
+            //This EnemyUnit can shoot only FriendlyUnits
+            if (targetUnit.IsEnemy() && unit.IsEnemy()) continue;
             //This Unit can shoot only enemies
             //if (targetUnit.IsEnemy() == unit.IsEnemy()) continue;
+
+            if (targetUnit == unit) continue;
 
             validActionGridPositions.Add(testGridPosition);
          }
@@ -165,5 +175,24 @@ public class ShootAction : BaseAction
    public int GetMaxShootDistance()
    {
       return maxShootDistance;
+   }
+
+   public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
+   {
+      Unit targetUnit = LevelGrid.Instance.GetUnitFromGridPosition(gridPosition);
+
+      return new EnemyAIAction
+      {
+         gridPosition = gridPosition,
+         actionValue = 100 + Mathf.RoundToInt(targetUnit.GetHealthNormalized() * 100f)
+      };
+   }
+
+   public int GetTargetCountAtPosition(GridPosition gridPosition)
+   {
+      List<GridPosition> validActionGridPositions = 
+         GetValidActionGridPositions(gridPosition);
+
+      return validActionGridPositions.Count;
    }
 }
