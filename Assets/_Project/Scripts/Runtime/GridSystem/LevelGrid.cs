@@ -18,7 +18,7 @@ public class LevelGrid : Singleton<LevelGrid>
          (GridSystem<GridObject> g, GridPosition gridPosition) =>
          new GridObject(g, gridPosition)
       );
-      gridSystem.CreateDebugObjects(gridDebugPrefab, transform);
+      //gridSystem.CreateDebugObjects(gridDebugPrefab, transform);
    }
 
    public void AddUnitAtGridPosition(GridPosition gridPosition, Unit unit)
