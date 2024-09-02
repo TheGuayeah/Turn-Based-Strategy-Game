@@ -2,8 +2,6 @@ using System;
 using UnityEngine;
 
 [RequireComponent(
-   typeof(MoveAction),
-   typeof(SpinAction),
    typeof(HealthSystem)
 )]
 public class Unit : MonoBehaviour
@@ -20,9 +18,6 @@ public class Unit : MonoBehaviour
 
    private GridPosition gridPosition;
    private HealthSystem healthSystem;
-   private MoveAction moveAction;
-   private SpinAction spinAction;
-   private ShootAction shootAction;
    private BaseAction[] baseActions;
    private int actionPoints = MAX_ACTION_POINTS;
    private bool isMouseOver;
@@ -30,9 +25,6 @@ public class Unit : MonoBehaviour
    private void Awake()
    {
       healthSystem = GetComponent<HealthSystem>();
-      moveAction = GetComponent<MoveAction>();
-      spinAction = GetComponent<SpinAction>();
-      shootAction = GetComponent<ShootAction>();
       baseActions = GetComponents<BaseAction>();
    }
 
@@ -72,19 +64,17 @@ public class Unit : MonoBehaviour
       OnMouseOverUnitChanged?.Invoke(this, EventArgs.Empty);
    }
 
-   public MoveAction GetMoveAction()
+   public T GetAction<T>() where T : BaseAction
    {
-      return moveAction;
-   }
+      foreach (BaseAction action in baseActions)
+      {
+         if (action is T)
+         {
+            return (T)action;
+         }
+      }
 
-   public SpinAction GetSpinAction()
-   {
-      return spinAction;
-   }
-
-   public ShootAction GetShootAction()
-   {
-      return shootAction;
+      return null;
    }
 
    public GridPosition GetGridPosition()

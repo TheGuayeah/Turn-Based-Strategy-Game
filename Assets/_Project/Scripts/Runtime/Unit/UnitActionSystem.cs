@@ -89,7 +89,7 @@ public class UnitActionSystem : Singleton<UnitActionSystem>
    {
       selectedUnit = unit;
 
-      SetSelectedAction(unit.GetBaseActions()[0]);
+      SetSelectedAction(unit.GetAction<MoveAction>());
 
       OnSelectedUnitChanged?.Invoke(this, EventArgs.Empty);
    }
