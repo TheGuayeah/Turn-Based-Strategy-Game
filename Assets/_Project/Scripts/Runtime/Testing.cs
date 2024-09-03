@@ -24,7 +24,7 @@ public class Testing : MonoBehaviour
 
          for (int i = 0; i < pathGridPositions.Count - 1; i++)
          {
-            Debug.DrawLine(
+            Debug.DrawLine( // White line for walkable path
                LevelGrid.Instance.GetWorldPosition(pathGridPositions[i]),
                LevelGrid.Instance.GetWorldPosition(pathGridPositions[i + 1]),
                Color.white,

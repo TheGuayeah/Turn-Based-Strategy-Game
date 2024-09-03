@@ -6,7 +6,10 @@ public class Pathfinding : Singleton<Pathfinding>
    private const int MOVE_STRAIGHT_COST = 10;
    private const int MOVE_DIAGONAL_COST = 14;
 
-   [SerializeField] private Transform gridDebugPrefab;
+   [SerializeField]
+   private Transform gridDebugPrefab;
+   [SerializeField] 
+  private LayerMask obstaclesLayerMask;
 
    private int width;
    private int height;
@@ -16,11 +19,42 @@ public class Pathfinding : Singleton<Pathfinding>
    protected override void Awake()
    {
       base.Awake();
-      gridSystem = new GridSystem<PathNode>(10, 10, 2f,
+   }
+
+   public void SetUp(int width, int height, float cellSize)
+   {
+      this.width = width;
+      this.height = height;
+      this.cellSize = cellSize;
+
+      gridSystem = new GridSystem<PathNode>(width, height, cellSize,
          (GridSystem<PathNode> g, GridPosition gridPosition) =>
          new PathNode(gridPosition)
       );
+
       gridSystem.CreateDebugObjects(gridDebugPrefab, transform);
+
+      for (int x = 0; x < width; x++)
+      {
+         for (int z = 0; z < height; z++)
+         {
+            GridPosition gridPosition = new GridPosition(x, z);
+            Vector3 worldPosition = gridSystem.GetWorldPosition(gridPosition);
+            float raycasOffsetDistance = 5f;
+
+            bool obstacleFound = Physics.Raycast(
+               worldPosition + Vector3.down * raycasOffsetDistance,
+               Vector3.up,
+               raycasOffsetDistance * 2,
+               obstaclesLayerMask
+            );
+
+            if (obstacleFound)
+            {
+               GetNode(x, z).SetIsWalkable(false);
+            }
+         }
+      }
    }
 
    public List<GridPosition> FindPath(GridPosition startPosition, GridPosition endPosition)
@@ -41,7 +75,7 @@ public class Pathfinding : Singleton<Pathfinding>
             PathNode pathNode = gridSystem.GetGridObject(gridPosition);
 
             pathNode.SetGCost(int.MaxValue);
-            pathNode.SetHCost(int.MaxValue);
+            pathNode.SetHCost(0);
             pathNode.CalculateFCost();
             pathNode.ResetCameFromPathNode();
          }
@@ -67,6 +101,12 @@ public class Pathfinding : Singleton<Pathfinding>
          foreach (PathNode neighbourNode in GetNeighbours(currentNode))
          {
             if (closedList.Contains(neighbourNode)) continue;
+
+            if (!neighbourNode.IsWalkable())
+            {
+               closedList.Add(neighbourNode);
+               continue;
+            }
 
             int tentativeGCost = currentNode.GetGCost() + CalculateDistance(
                   currentNode.GetGridPosition(), 
