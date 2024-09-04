@@ -32,7 +32,7 @@ public class Pathfinding : Singleton<Pathfinding>
          new PathNode(gridPosition)
       );
 
-      gridSystem.CreateDebugObjects(gridDebugPrefab, transform);
+      //gridSystem.CreateDebugObjects(gridDebugPrefab, transform);
 
       for (int x = 0; x < width; x++)
       {
