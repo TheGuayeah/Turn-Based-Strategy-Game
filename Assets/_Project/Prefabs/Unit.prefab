@@ -140,6 +140,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxShootDistance: 4
   rotateSpeed: 25
+  obstaclesLayerMask:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!65 &5659614985639337943
 BoxCollider:
   m_ObjectHideFlags: 0

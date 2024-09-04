@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ShootAction : BaseAction
@@ -16,6 +17,8 @@ public class ShootAction : BaseAction
    private int maxShootDistance = 7;
    [SerializeField]
    private float rotateSpeed = 25f;
+   [SerializeField]
+   private LayerMask obstaclesLayerMask;
 
    private enum State
    {
@@ -146,6 +149,26 @@ public class ShootAction : BaseAction
             //if (targetUnit.IsEnemy() == unit.IsEnemy()) continue;
 
             if (targetUnit == unit) continue;
+
+            float unitShoulderHeight = 1.7f;
+            Vector3 unitWorldPosition = LevelGrid.Instance.GetWorldPosition(unitGridPosition);
+
+            Vector3 shootingOrigin = unitWorldPosition + Vector3.up * unitShoulderHeight;
+            
+            Vector3 shootDirection =
+               (targetUnit.GetWorldPosition() - unitWorldPosition).normalized;
+
+            float shootingDistance = 
+               Vector3.Distance(unitWorldPosition, targetUnit.GetWorldPosition());
+
+            bool isBlockedByObstacle = Physics.Raycast(
+               shootingOrigin,
+               shootDirection,
+               shootingDistance,
+               obstaclesLayerMask
+            );
+
+            if (isBlockedByObstacle) continue;
 
             validActionGridPositions.Add(testGridPosition);
          }

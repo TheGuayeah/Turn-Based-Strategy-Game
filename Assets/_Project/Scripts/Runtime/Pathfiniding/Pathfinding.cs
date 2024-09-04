@@ -57,7 +57,11 @@ public class Pathfinding : Singleton<Pathfinding>
       }
    }
 
-   public List<GridPosition> FindPath(GridPosition startPosition, GridPosition endPosition)
+   public List<GridPosition> FindPath(
+      GridPosition startPosition, 
+      GridPosition endPosition,
+      out int pathLength
+   )
    {
       List<PathNode> openList = new List<PathNode>(); //still searching
       List<PathNode> closedList = new List<PathNode>(); //already searched
@@ -92,6 +96,7 @@ public class Pathfinding : Singleton<Pathfinding>
          if(currentNode == endNode)
          {
             // Reached our destination
+            pathLength = currentNode.GetFCost();
             return CalculatePath(endNode);
          }
 
@@ -131,6 +136,7 @@ public class Pathfinding : Singleton<Pathfinding>
       }
 
       // No path found
+      pathLength = 0;
       return null;
    }
 
@@ -240,5 +246,22 @@ public class Pathfinding : Singleton<Pathfinding>
       }
 
       return pathGridPositions;
+   }
+
+   public bool IsWalkableGridPosition(GridPosition gridPosition)
+   {
+      PathNode pathNode = gridSystem.GetGridObject(gridPosition);
+      return pathNode.IsWalkable();
+   }
+
+   public bool HasPath(GridPosition startPosition, GridPosition endPosition)
+   {
+      return FindPath(startPosition, endPosition, out int pathLength) != null;
+   }
+
+   public int GetPathLength(GridPosition startPosition, GridPosition endPosition)
+   {
+      FindPath(startPosition, endPosition, out int pathLength);
+      return pathLength;
    }
 }
