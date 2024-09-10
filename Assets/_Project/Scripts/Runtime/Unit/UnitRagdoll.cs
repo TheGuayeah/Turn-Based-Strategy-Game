@@ -11,8 +11,10 @@ public class UnitRagdoll : MonoBehaviour
    {
       MatchAllBones(originalRootBone, rootBone);
 
-      if (applyExplosion)
-         ApplyExplosionToRagdoll(rootBone, 300f, transform.position, 10f);
+      if (!applyExplosion) return;
+      
+      Vector3 explosionDirection = new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f));
+      ApplyExplosionToRagdoll(rootBone, 300f, transform.position + explosionDirection, 10f);
    }
 
    private void MatchAllBones(Transform root, Transform clone)
