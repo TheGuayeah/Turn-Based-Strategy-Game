@@ -1,6 +1,6 @@
 using Cinemachine;
+using System.Collections;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class CameraController : MonoBehaviour
 {
@@ -17,8 +17,11 @@ public class CameraController : MonoBehaviour
    private float zoomAmmount = 1f;
    [SerializeField]
    private float zoomSpeed = 5f;
+   [SerializeField]
+   private AnimationCurve moveToUnitCurve;
 
    private CinemachineTransposer transposer;
+   //[SerializeField]
    private Vector3 targetFollowOffset;
 
    private void Start()
@@ -32,6 +35,42 @@ public class CameraController : MonoBehaviour
       HandleMovement();
       HandleRotation();
       HandleZoom();
+
+      if (UnitActionSystem.Instance.IsUnitBeingSelected())
+      {
+         MoveToSelectedUnit();
+      }
+   }
+
+   private void MoveToSelectedUnit()
+   {
+      Vector3 endPosition = 
+         UnitActionSystem.Instance.GetSelectedUnit().transform.position;
+      StartCoroutine(LerpPosition(endPosition, 0.7f));
+
+      if (transform.position == endPosition)
+      {
+         UnitActionSystem.Instance.ClearUnitBeingSelected();
+      }
+   }
+
+   private IEnumerator LerpPosition(Vector3 targetPosition, float duration)
+   {
+      float time = 0;
+      Vector3 startPosition = transform.position;
+
+      while (time < duration)
+      {
+         transform.position = Vector3.Lerp(
+            startPosition,
+            targetPosition,
+            moveToUnitCurve.Evaluate(time / duration)
+         );
+
+         time += Time.deltaTime;
+         yield return null;
+      }
+      transform.position = targetPosition;
    }
 
    private void HandleMovement()
@@ -92,7 +131,9 @@ public class CameraController : MonoBehaviour
          MIN_FOLLOW_Y_OFFSET,
          MAX_FOLLOW_Y_OFFSET
       );
-      transposer.m_FollowOffset = Vector3.Lerp(transposer.m_FollowOffset,
+
+      transposer.m_FollowOffset = Vector3.Lerp(
+         transposer.m_FollowOffset,
          targetFollowOffset,
          zoomSpeed * Time.deltaTime
       );

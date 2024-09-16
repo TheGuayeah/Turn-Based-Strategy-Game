@@ -15,6 +15,7 @@ public class UnitActionSystem : Singleton<UnitActionSystem>
 
    private BaseAction selectedAction;
    private bool isBusy;
+   private bool isUnitBeingSelected;
 
    private void Start()
    {
@@ -73,6 +74,8 @@ public class UnitActionSystem : Singleton<UnitActionSystem>
 
          if (hitInfo.transform.TryGetComponent(out Unit unit))
          {
+            isUnitBeingSelected = true;
+
             if (unit == selectedUnit) return false;
 
             //We want to select enemies as well
@@ -109,5 +112,15 @@ public class UnitActionSystem : Singleton<UnitActionSystem>
    public BaseAction GetSelectedAction()
    {
       return selectedAction;
+   }
+
+   public bool IsUnitBeingSelected()
+   {
+      return isUnitBeingSelected;
+   }
+
+   public void ClearUnitBeingSelected()
+   {
+      isUnitBeingSelected = false;
    }
 }

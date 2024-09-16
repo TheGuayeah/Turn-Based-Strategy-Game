@@ -281,7 +281,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 166667178}
-  m_LocalRotation: {x: 0.29825428, y: -0.11989891, z: 0.03779481, w: 0.9461714}
+  m_LocalRotation: {x: 0.29825428, y: -0.11989891, z: 0.037794806, w: 0.9461714}
   m_LocalPosition: {x: 5.26259, y: 7, z: -3.1334872}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -740,7 +740,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
-  m_LocalRotation: {x: 0.29825428, y: -0.11989891, z: 0.03779481, w: 0.9461714}
+  m_LocalRotation: {x: 0.29825428, y: -0.11989891, z: 0.037794806, w: 0.9461714}
   m_LocalPosition: {x: 5.26259, y: 7, z: -3.1334872}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2661,6 +2661,30 @@ MonoBehaviour:
   rotationSpeed: 100
   zoomAmmount: 1
   zoomSpeed: 5
+  moveToUnitCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!4 &1217713654
 Transform:
   m_ObjectHideFlags: 0
@@ -4030,7 +4054,7 @@ PrefabInstance:
     - target: {fileID: 2799528168200887500, guid: e0b14f02a7a8ecb4397a9eeab3aeabab,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 11
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 2799528168200887500, guid: e0b14f02a7a8ecb4397a9eeab3aeabab,
         type: 3}
