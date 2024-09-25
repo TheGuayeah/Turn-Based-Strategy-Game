@@ -26,7 +26,7 @@ public class UnitActionSystem : Singleton<UnitActionSystem>
    {
       if (isBusy) return;
 
-      if(!TurnSystem.Instance.IsPlayerTurn()) return;
+      if(!TurnSystem.Instance.IsPlayerTurn()) return;      
 
       if (EventSystem.current.IsPointerOverGameObject()) return;
 
@@ -37,6 +37,8 @@ public class UnitActionSystem : Singleton<UnitActionSystem>
 
    private void HandleSelectedAction()
    {
+      if (selectedUnit.IsEnemy()) return;
+
       if (Input.GetMouseButtonDown(0))
       {
          GridPosition mouseGridPosition =
