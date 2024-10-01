@@ -67,7 +67,29 @@ public class GridSystemVisual : Singleton<GridSystemVisual>
       }
    }
 
-   private void ShowGridPosionRange(GridPosition gridPosition, int range, GridVisualColor gridVisualColor)
+   private void ShowGridPosionRangeSquare(GridPosition gridPosition, int range, GridVisualColor gridVisualColor)
+   {
+      List<GridPosition> gridPositions = new List<GridPosition>();
+
+      for (int x = -range; x <= range; x++)
+      {
+         for (int z = -range; z <= range; z++)
+         {
+            GridPosition newGridPosition = gridPosition + new GridPosition(x, z);
+
+            if (!LevelGrid.Instance.IsValidGridPosition(newGridPosition))
+            {
+               continue;
+            }
+
+            gridPositions.Add(newGridPosition);
+         }
+      }
+
+      ShowGridPositionList(gridPositions, gridVisualColor);
+   }
+
+   private void ShowGridPosionRangeCircle(GridPosition gridPosition, int range, GridVisualColor gridVisualColor)
    {
       List<GridPosition> gridPositions = new List<GridPosition>();
 
@@ -117,14 +139,27 @@ public class GridSystemVisual : Singleton<GridSystemVisual>
          case MoveAction moveAction:
             gridVisualColor = GridVisualColor.White;
             break;
+
          case SpinAction spinAction:
             gridVisualColor = GridVisualColor.Blue;
             break;
+
          case ShootAction shootAction:
             gridVisualColor = GridVisualColor.Red;
 
-            ShowGridPosionRange(selectedUnit.GetGridPosition(), 
+            ShowGridPosionRangeCircle(selectedUnit.GetGridPosition(),
                shootAction.GetMaxShootDistance(), GridVisualColor.RedSoft);
+            break;
+
+         case GrenadeAction grenadeAction:
+            gridVisualColor = GridVisualColor.Yellow;
+            break;
+
+         case SwordAction swordAction:
+            gridVisualColor = GridVisualColor.Red;
+
+            ShowGridPosionRangeSquare(selectedUnit.GetGridPosition(),
+               swordAction.GetMaxSwordDistance(), GridVisualColor.RedSoft);
             break;
       }
       ShowGridPositionList(selectedAction.GetValidActionGridPositions(), gridVisualColor);
