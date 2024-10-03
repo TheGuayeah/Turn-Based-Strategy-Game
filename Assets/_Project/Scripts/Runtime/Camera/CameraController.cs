@@ -28,6 +28,7 @@ public class CameraController : MonoBehaviour
    {
       transposer = virtualCamera.GetCinemachineComponent<CinemachineTransposer>();
       targetFollowOffset = transposer.m_FollowOffset;
+      MoveToSelectedUnit();
    }
 
    private void Update()
