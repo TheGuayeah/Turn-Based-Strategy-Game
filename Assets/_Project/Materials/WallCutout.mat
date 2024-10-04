@@ -58,7 +58,7 @@ Material:
     - _OverlayAmount: 0.5
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Size: 1
+    - _Size: 0
     - _Smoothness: 0.72
     - _Specular: 0.1
     - __dirty: 0
@@ -68,7 +68,7 @@ Material:
     - _CutoutPos: {r: 0.5, g: 0.5, b: 0, a: 0}
     - _Offset: {r: 1, g: 1, b: 0, a: 0}
     - _Opacity: {r: 0, g: 0, b: 0, a: 0.5529412}
-    - _TargetPos: {r: 0.5, g: 0.4999999, b: 12.206555, a: 0}
+    - _TargetPos: {r: 0.49999997, g: 0.50000006, b: 12.206554, a: 0}
     - _Tiling: {r: 1, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &559741730776485105
