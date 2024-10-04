@@ -65,6 +65,8 @@ public class EnemyAI : MonoBehaviour
 
       if (sender.GetType() == typeof(TurnSystem))
       {
+         if (UnitManager.Instance.GetEnemyUnits().Count == 0) return;
+
          Unit nextEnemyUnit = UnitManager.Instance.GetEnemyUnits()[0];
          UnitActionSystem.Instance.SetSelectedUnit(nextEnemyUnit);
       }
@@ -83,8 +85,11 @@ public class EnemyAI : MonoBehaviour
          }
       }
 
+      if (UnitManager.Instance.GetFriendlyUnits().Count == 0) return false;
+
       Unit nextFriendlyUnit = UnitManager.Instance.GetFriendlyUnits()[0];
       UnitActionSystem.Instance.SetSelectedUnit(nextFriendlyUnit);
+      
       return false;
    }
 
