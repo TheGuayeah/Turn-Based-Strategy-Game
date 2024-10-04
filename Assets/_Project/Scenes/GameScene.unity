@@ -286,7 +286,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 166667178}
-  m_LocalRotation: {x: 0.29825428, y: -0.11989891, z: 0.037794806, w: 0.9461714}
+  m_LocalRotation: {x: 0.29825428, y: -0.11989891, z: 0.03779481, w: 0.9461714}
   m_LocalPosition: {x: 5.26259, y: 7, z: -3.1334872}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -482,7 +482,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 25
+  m_RootOrder: 23
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &267800340
 PrefabInstance:
@@ -750,7 +750,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
-  m_LocalRotation: {x: 0.29825428, y: -0.11989891, z: 0.037794806, w: 0.9461714}
+  m_LocalRotation: {x: 0.29825428, y: -0.11989891, z: 0.03779481, w: 0.9461714}
   m_LocalPosition: {x: 5.26259, y: 7, z: -3.1334872}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1017,7 +1017,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 23
+  m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &384949292
 PrefabInstance:
@@ -1865,6 +1865,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 2137992976}
   - {fileID: 9084531130704799006}
   - {fileID: 1274348725}
   - {fileID: 820061911}
@@ -1888,7 +1889,7 @@ Transform:
   - {fileID: 539150428}
   - {fileID: 267800341}
   m_Father: {fileID: 0}
-  m_RootOrder: 28
+  m_RootOrder: 27
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &689845389
 PrefabInstance:
@@ -2215,7 +2216,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 24
+  m_RootOrder: 22
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &832575517
 GameObject:
@@ -3569,7 +3570,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 27
+  m_RootOrder: 25
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1533343897
 PrefabInstance:
@@ -4409,9 +4410,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cba5f1b179c88a45ad5eb4bbfde4d9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mousePlaneLayerMask:
+  unignoredPositions:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 320
 --- !u!4 &1954663899
 Transform:
   m_ObjectHideFlags: 0
@@ -4426,7 +4427,7 @@ Transform:
   m_Children:
   - {fileID: 2085753752}
   m_Father: {fileID: 0}
-  m_RootOrder: 22
+  m_RootOrder: 26
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1967498118
 PrefabInstance:
@@ -4921,7 +4922,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2085753752
 Transform:
   m_ObjectHideFlags: 0
@@ -5270,13 +5271,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2137992972}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 18, y: 0, z: 24}
   m_LocalScale: {x: 10, y: 10, z: 10}
   m_ConstrainProportionsScale: 1
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 21
+  m_Father: {fileID: 676928928}
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4583628068803837 stripped
 Transform:
@@ -5331,7 +5332,7 @@ PrefabInstance:
     - target: {fileID: 2568638875564172560, guid: 5958932e96d54e0408d1fe960d790e13,
         type: 3}
       propertyPath: m_RootOrder
-      value: 29
+      value: 28
       objectReference: {fileID: 0}
     - target: {fileID: 2568638875564172560, guid: 5958932e96d54e0408d1fe960d790e13,
         type: 3}
@@ -5574,7 +5575,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 26
+  m_RootOrder: 24
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &9084531130704799005
 PrefabInstance:
