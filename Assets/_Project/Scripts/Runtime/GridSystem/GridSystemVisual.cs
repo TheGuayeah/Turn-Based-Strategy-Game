@@ -161,6 +161,10 @@ public class GridSystemVisual : Singleton<GridSystemVisual>
             ShowGridPosionRangeSquare(selectedUnit.GetGridPosition(),
                swordAction.GetMaxSwordDistance(), GridVisualColor.RedSoft);
             break;
+
+         case InteractAction interactAction:
+            gridVisualColor = GridVisualColor.Blue;
+            break;
       }
       ShowGridPositionList(selectedAction.GetValidActionGridPositions(), gridVisualColor);
    }
