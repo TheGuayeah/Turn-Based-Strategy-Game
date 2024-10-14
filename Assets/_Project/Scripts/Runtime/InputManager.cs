@@ -1,21 +1,41 @@
+#define USE_NEW_INPUT_SYSTEM
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class InputManager : Singleton<InputManager>
 {
-   
+   private PlayerInputActions playerInputActions;
+
+   protected override void Awake()
+   {
+      base.Awake();
+      playerInputActions = new PlayerInputActions();
+      playerInputActions.Player.Enable();
+   }
 
    public Vector2 GetMouseScreenPosition()
    {
+#if USE_NEW_INPUT_SYSTEM
+      return Mouse.current.position.ReadValue();
+#else
       return Input.mousePosition;
+#endif
    }
 
-   public bool IsMouseButtonDown(int mouseButton)
+   public bool IsMouseButtonDownThisFrame(int mouseButton)
    {
+#if USE_NEW_INPUT_SYSTEM
+      return playerInputActions.Player.Click.WasPressedThisFrame();
+#else
       return Input.GetMouseButtonDown(mouseButton);
+#endif
    }
 
    public Vector2 GetCameraMoveVector()
    {
+#if USE_NEW_INPUT_SYSTEM
+      return playerInputActions.Player.CameraMovement.ReadValue<Vector2>();
+#else
       Vector2 inputMoveDir = new Vector3(0, 0);
 
       if (Input.GetKey(KeyCode.W))
@@ -36,12 +56,16 @@ public class InputManager : Singleton<InputManager>
       }
 
       return inputMoveDir;
+#endif
    }
 
    public Vector2 GetCameraRotateVector()
    {
       Vector2 rotationVector = new Vector2(0, 0);
 
+#if USE_NEW_INPUT_SYSTEM
+      rotationVector.y = playerInputActions.Player.CameraRotate.ReadValue<float>();
+#else
       if (Input.GetKey(KeyCode.Q))
       {
          rotationVector += Vector2.up;
@@ -50,13 +74,17 @@ public class InputManager : Singleton<InputManager>
       {
          rotationVector += Vector2.down;
       }
-
+#endif
       return rotationVector;
    }
 
    public float GetCameraZoomAmount()
    {
       float zoomAmmount = 0f;
+
+#if USE_NEW_INPUT_SYSTEM
+      zoomAmmount = playerInputActions.Player.CameraZoom.ReadValue<float>();
+#else
 
       if (Input.mouseScrollDelta.y > 0)
       {
@@ -66,7 +94,7 @@ public class InputManager : Singleton<InputManager>
       {
          zoomAmmount = 1f;
       }
-
+#endif
       return zoomAmmount;
    }
 }

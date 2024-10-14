@@ -68,7 +68,7 @@ Material:
     - _CutoutPos: {r: 0.5, g: 0.5, b: 0, a: 0}
     - _Offset: {r: 1, g: 1, b: 0, a: 0}
     - _Opacity: {r: 0, g: 0, b: 0, a: 0.5529412}
-    - _TargetPos: {r: 0.5, g: 0.50000006, b: 12.206554, a: 0}
+    - _TargetPos: {r: 0.5, g: 0.5000029, b: 11.662339, a: 0}
     - _Tiling: {r: 1, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &559741730776485105
