@@ -39,7 +39,7 @@ public class UnitActionSystem : Singleton<UnitActionSystem>
    {
       if (selectedUnit.IsEnemy()) return;
 
-      if (Input.GetMouseButtonDown(0))
+      if (InputManager.Instance.IsMouseButtonDown(0))
       {
          GridPosition mouseGridPosition =
             LevelGrid.Instance.GetGridPosition(MouseWorld.GetPosition());
@@ -67,9 +67,9 @@ public class UnitActionSystem : Singleton<UnitActionSystem>
 
    private bool TryHandleUnitSelection()
    {
-      if (Input.GetMouseButtonDown(0))
+      if (InputManager.Instance.IsMouseButtonDown(0))
       {
-         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+         Ray ray = Camera.main.ScreenPointToRay(InputManager.Instance.GetMouseScreenPosition());
          bool hasHit = Physics.Raycast(ray, out RaycastHit hitInfo, float.MaxValue, unitLayerMask);
 
          if (!hasHit) return false;
