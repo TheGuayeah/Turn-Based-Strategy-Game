@@ -5,6 +5,11 @@ public class MouseWorld : Singleton<MouseWorld>
    [SerializeField]
    private LayerMask unignoredPositions;
 
+   //private void Update()
+   //{
+   //   transform.position = GetPosition();
+   //}
+
    public static Vector3 GetPosition()
    {
       Ray ray = Camera.main.ScreenPointToRay(InputManager.Instance.GetMouseScreenPosition());

@@ -45,13 +45,16 @@ public class CameraController : MonoBehaviour
 
    private void MoveToSelectedUnit()
    {
-      Vector3 endPosition = 
-         UnitActionSystem.Instance.GetSelectedUnit().transform.position;
+      Unit selectedunit = UnitActionSystem.Instance.GetSelectedUnit();
+      Vector3 endPosition = selectedunit.transform.position;
+
       StartCoroutine(LerpPosition(endPosition, 0.7f));
 
       if (transform.position == endPosition)
       {
+         Debug.Log("MoveToSelectedUnit");
          UnitActionSystem.Instance.ClearUnitBeingSelected();
+         transform.SetParent(selectedunit.transform);
       }
    }
 

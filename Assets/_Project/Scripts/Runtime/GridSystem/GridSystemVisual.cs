@@ -40,7 +40,7 @@ public class GridSystemVisual : Singleton<GridSystemVisual>
          {
             Transform gridSystemVisualSingleTransform = Instantiate(
                gridSystemVisualSinglePrefab,
-               LevelGrid.Instance.GetWorldPosition(new GridPosition(x, z)),
+               LevelGrid.Instance.GetWorldPosition(new GridPosition(x, z, 0)),
                Quaternion.identity,
                transform
             );
@@ -75,7 +75,7 @@ public class GridSystemVisual : Singleton<GridSystemVisual>
       {
          for (int z = -range; z <= range; z++)
          {
-            GridPosition newGridPosition = gridPosition + new GridPosition(x, z);
+            GridPosition newGridPosition = gridPosition + new GridPosition(x, z, 0);
 
             if (!LevelGrid.Instance.IsValidGridPosition(newGridPosition))
             {
@@ -97,7 +97,7 @@ public class GridSystemVisual : Singleton<GridSystemVisual>
       {
          for (int z = -range; z <= range; z++)
          {
-            GridPosition newGridPosition = gridPosition + new GridPosition(x, z);
+            GridPosition newGridPosition = gridPosition + new GridPosition(x, z, 0);
 
             if (!LevelGrid.Instance.IsValidGridPosition(newGridPosition))
             {

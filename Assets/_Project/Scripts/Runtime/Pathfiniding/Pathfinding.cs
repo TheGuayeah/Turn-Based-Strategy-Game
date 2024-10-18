@@ -27,8 +27,8 @@ public class Pathfinding : Singleton<Pathfinding>
       this.height = height;
       this.cellSize = cellSize;
 
-      gridSystem = new GridSystem<PathNode>(width, height, cellSize,
-         (GridSystem<PathNode> g, GridPosition gridPosition) =>
+      gridSystem = new GridSystem<PathNode>(width, height, cellSize, 0, 
+         LevelGrid.FLOOR_HEIGHT, (GridSystem<PathNode> g, GridPosition gridPosition) =>
          new PathNode(gridPosition)
       );
 
@@ -38,7 +38,7 @@ public class Pathfinding : Singleton<Pathfinding>
       {
          for (int z = 0; z < height; z++)
          {
-            GridPosition gridPosition = new GridPosition(x, z);
+            GridPosition gridPosition = new GridPosition(x, z, 0);
             Vector3 worldPosition = gridSystem.GetWorldPosition(gridPosition);
             float raycasOffsetDistance = 5f;
 
@@ -75,7 +75,7 @@ public class Pathfinding : Singleton<Pathfinding>
       {
          for (int z = 0; z < gridSystem.GetHeight(); z++)
          {
-            GridPosition gridPosition = new GridPosition(x, z);
+            GridPosition gridPosition = new GridPosition(x, z, 0);
             PathNode pathNode = gridSystem.GetGridObject(gridPosition);
 
             pathNode.SetGCost(int.MaxValue);
@@ -166,7 +166,7 @@ public class Pathfinding : Singleton<Pathfinding>
 
    private PathNode GetNode(int x, int z)
    {
-      return gridSystem.GetGridObject(new GridPosition(x, z));
+      return gridSystem.GetGridObject(new GridPosition(x, z, 0));
    }
 
    private List<PathNode> GetNeighbours(PathNode currentNode)
