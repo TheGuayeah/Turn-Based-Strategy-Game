@@ -117,6 +117,11 @@ public class LevelGrid : Singleton<LevelGrid>
       return GetGridSystemAtFloor(0).GetHeight();
    }
 
+   public int GetFloorAmount()
+   {
+      return floorAmount;
+   }
+
    public bool IsAnyUnitAtGridPosition(GridPosition gridPosition)
    {
       GridObject gridObject = 

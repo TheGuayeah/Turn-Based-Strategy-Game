@@ -25,27 +25,31 @@ public class GridSystemVisual : Singleton<GridSystemVisual>
    [SerializeField]
    private List<GridVisualType> gridVisualTypes;
 
-   private GridSystemVisualSingle[,] gridSystemVisualSingles;
+   private GridSystemVisualSingle[,,] gridSystemVisualSingles;
 
    private void Start()
    {
       gridSystemVisualSingles =  new GridSystemVisualSingle[
          LevelGrid.Instance.GetWidth(), 
-         LevelGrid.Instance.GetHeight()
+         LevelGrid.Instance.GetHeight(),
+         LevelGrid.Instance.GetFloorAmount()
       ];
 
       for (int x = 0; x < LevelGrid.Instance.GetWidth(); x++)
       {
          for (int z = 0; z < LevelGrid.Instance.GetHeight(); z++)
          {
-            Transform gridSystemVisualSingleTransform = Instantiate(
-               gridSystemVisualSinglePrefab,
-               LevelGrid.Instance.GetWorldPosition(new GridPosition(x, z, 0)),
-               Quaternion.identity,
-               transform
-            );
-            gridSystemVisualSingles[x, z] = 
-               gridSystemVisualSingleTransform.GetComponent<GridSystemVisualSingle>();
+            for (int floor = 0; floor < LevelGrid.Instance.GetFloorAmount(); floor++)
+            {
+               Transform gridSystemVisualSingleTransform = Instantiate(
+                  gridSystemVisualSinglePrefab,
+                  LevelGrid.Instance.GetWorldPosition(new GridPosition(x, z, floor)),
+                  Quaternion.identity,
+                  transform
+               );
+               gridSystemVisualSingles[x, z, floor] =
+                  gridSystemVisualSingleTransform.GetComponent<GridSystemVisualSingle>();
+            }
          }
       }
 
@@ -62,7 +66,10 @@ public class GridSystemVisual : Singleton<GridSystemVisual>
       {
          for(int z = 0; z < LevelGrid.Instance.GetHeight(); z++)
          {
-            gridSystemVisualSingles[x, z].Hide();
+            for (int floor = 0; floor < LevelGrid.Instance.GetFloorAmount(); floor++)
+            {
+               gridSystemVisualSingles[x, z, floor].Hide();
+            }
          }
       }
    }
@@ -121,7 +128,7 @@ public class GridSystemVisual : Singleton<GridSystemVisual>
 
       foreach (GridPosition gridPosition in gridPositionList)
       {
-         gridSystemVisualSingles[gridPosition.x, gridPosition.z].
+         gridSystemVisualSingles[gridPosition.x, gridPosition.z, gridPosition.floor].
             Show(GetGridVisualMaterial(gridVisualColor));
       }
    }

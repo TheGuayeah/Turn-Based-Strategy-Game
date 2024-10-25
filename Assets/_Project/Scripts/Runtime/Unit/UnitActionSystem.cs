@@ -24,8 +24,6 @@ public class UnitActionSystem : Singleton<UnitActionSystem>
 
    private void Update()
    {
-      Debug.Log(LevelGrid.Instance.GetGridPosition(MouseWorld.GetPosition()));
-
       if (isBusy) return;
 
       if(!TurnSystem.Instance.IsPlayerTurn()) return;      
