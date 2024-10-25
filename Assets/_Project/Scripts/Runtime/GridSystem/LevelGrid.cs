@@ -43,7 +43,7 @@ public class LevelGrid : Singleton<LevelGrid>
 
    private void Start()
    {
-      Pathfinding.Instance.SetUp(width, height, cellSize);
+      Pathfinding.Instance.SetUp(width, height, cellSize, floorAmount);
    }
 
    public GridSystem<GridObject> GetGridSystemAtFloor(int floor)
@@ -104,7 +104,10 @@ public class LevelGrid : Singleton<LevelGrid>
 
    public bool IsValidGridPosition(GridPosition gridPosition)
    {
-      return GetGridSystemAtFloor(gridPosition.floor).IsValidGridPosition(gridPosition);
+      if(gridPosition.floor < 0 || gridPosition.floor >= floorAmount) return false;
+
+      GridSystem<GridObject> gridSysrem = GetGridSystemAtFloor(gridPosition.floor);
+      return gridSysrem.IsValidGridPosition(gridPosition);
    }
 
    public int GetWidth()
