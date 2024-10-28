@@ -6,6 +6,12 @@ public class MoveAction : BaseAction
 {
    public event EventHandler OnStartMoving;
    public event EventHandler OnStopMoving;
+   public event EventHandler<OnStartJumpEventArgs> OnStartJumping;
+   public class OnStartJumpEventArgs : EventArgs
+   {
+      public GridPosition unitGridPosition;
+      public GridPosition targetGridPosition;
+   }
 
    [SerializeField]
    private float moveSpeed = 4f;
@@ -18,6 +24,9 @@ public class MoveAction : BaseAction
 
    private List<Vector3> positons;
    private int currentPositionIndex;
+   private bool isChangingFloors;
+   private float floorTeleportTimer;
+   private float floorTeleportTimerMax = 0.5f;
 
    private void Update()
    {
@@ -25,24 +34,68 @@ public class MoveAction : BaseAction
 
       Vector3 targetPosition = positons[currentPositionIndex];
 
-      float distance = Vector3.Distance(transform.position, targetPosition);
-      Vector3 moveDirection = (targetPosition - transform.position).normalized;
-
-      transform.forward = Vector3.Lerp(transform.forward, moveDirection,
-                           rotateSpeed * Time.deltaTime);
-
-      if (distance > stoppingDistance)
+      if (isChangingFloors) //Stop and Teleport Logic
       {
-         transform.position += moveDirection * moveSpeed * Time.deltaTime;
+         Vector3 targetSameFloorPosition = targetPosition;
+         targetSameFloorPosition.y = transform.position.y;
+
+         Vector3 rotateDirection = (targetSameFloorPosition - transform.position).normalized;
+
+         transform.forward = Vector3.Slerp(transform.forward, rotateDirection,
+                              rotateSpeed * Time.deltaTime);
+
+
+         floorTeleportTimer -= Time.deltaTime;
+
+         if (floorTeleportTimer <= 0f)
+         {
+            isChangingFloors = false;
+            transform.position = targetPosition;
+         }
       }
-      else
+      else //Regular Move Logic
+      {
+         Vector3 moveDirection = (targetPosition - transform.position).normalized;
+
+         transform.forward = Vector3.Slerp(transform.forward, moveDirection,
+                              rotateSpeed * Time.deltaTime);
+
+         transform.position += moveDirection * moveSpeed * Time.deltaTime;
+
+      }
+
+      float distance = Vector3.Distance(transform.position, targetPosition);
+
+      if (distance < stoppingDistance)
       {
          currentPositionIndex++;
 
-         if (currentPositionIndex < positons.Count) return;
+         if (currentPositionIndex >= positons.Count)
+         {
+            OnStopMoving?.Invoke(this, EventArgs.Empty);
+            ActionComplete();
+         }
+         else
+         {
+            targetPosition = positons[currentPositionIndex];
+            GridPosition targetGridPosition = 
+               LevelGrid.Instance.GetGridPosition(targetPosition);
+            GridPosition unitGridPosition = 
+               LevelGrid.Instance.GetGridPosition(transform.position);
 
-         OnStopMoving?.Invoke(this, EventArgs.Empty);
-         ActionComplete();
+
+            if (targetGridPosition.floor != unitGridPosition.floor)
+            {
+               isChangingFloors = true;
+               floorTeleportTimer = floorTeleportTimerMax;
+
+               OnStartJumping?.Invoke(this, new OnStartJumpEventArgs
+               {
+                  unitGridPosition = unitGridPosition,
+                  targetGridPosition = targetGridPosition
+               });
+            }
+         }         
       }
    }
 

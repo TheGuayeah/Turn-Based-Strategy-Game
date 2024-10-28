@@ -6,6 +6,8 @@ public class UnitAnimator : MonoBehaviour
    private const string IS_WALKING = "IsWalking";
    private const string SHOOT = "Shoot";
    private const string SWORD_JUMP_ATTACK = "SwordJumpAttack";
+   private const string MOVE_JUMP_UP = "JumpUp";
+   private const string MOVE_DROP_DOWN = "JumpDown";
 
    [SerializeField]
    private Animator animator;
@@ -24,6 +26,7 @@ public class UnitAnimator : MonoBehaviour
       {
          moveAction.OnStartMoving += MoveAction_OnStartMoving;
          moveAction.OnStopMoving += MoveAction_OnStopMoving;
+         moveAction.OnStartJumping += MoveAction_OnStartJumping;
       }
       if(TryGetComponent<ShootAction>(out ShootAction shootAction))
       {
@@ -39,6 +42,18 @@ public class UnitAnimator : MonoBehaviour
    private void Start()
    {
       EquipRifle();
+   }
+
+   private void MoveAction_OnStartJumping(object sender, MoveAction.OnStartJumpEventArgs e)
+   {
+      if (e.targetGridPosition.floor > e.unitGridPosition.floor)
+      {
+         animator.SetTrigger(MOVE_JUMP_UP);
+      }
+      else
+      {
+         animator.SetTrigger(MOVE_DROP_DOWN);
+      }
    }
 
    private void MoveAction_OnStartMoving(object sender, EventArgs e)

@@ -895,7 +895,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   linkPositionA: {x: 0, y: 0, z: 12}
-  linkPositionB: {x: 0, y: 3, z: 15}
+  linkPositionB: {x: 0, y: 3, z: 14}
 --- !u!1 &324102024
 GameObject:
   m_ObjectHideFlags: 0
@@ -1883,7 +1883,7 @@ PrefabInstance:
     - target: {fileID: 3997434603837355595, guid: 50d550eb24736aa44a144b07267dfc45,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3997434603837355595, guid: 50d550eb24736aa44a144b07267dfc45,
         type: 3}
@@ -1893,12 +1893,12 @@ PrefabInstance:
     - target: {fileID: 3997434603837355595, guid: 50d550eb24736aa44a144b07267dfc45,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 22
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 3997434603837355595, guid: 50d550eb24736aa44a144b07267dfc45,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.0000029504295
       objectReference: {fileID: 0}
     - target: {fileID: 3997434603837355595, guid: 50d550eb24736aa44a144b07267dfc45,
         type: 3}
@@ -1908,7 +1908,7 @@ PrefabInstance:
     - target: {fileID: 3997434603837355595, guid: 50d550eb24736aa44a144b07267dfc45,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 3997434603837355595, guid: 50d550eb24736aa44a144b07267dfc45,
         type: 3}
@@ -1923,7 +1923,7 @@ PrefabInstance:
     - target: {fileID: 3997434603837355595, guid: 50d550eb24736aa44a144b07267dfc45,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: -180
       objectReference: {fileID: 0}
     - target: {fileID: 3997434603837355595, guid: 50d550eb24736aa44a144b07267dfc45,
         type: 3}
@@ -7785,7 +7785,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   linkPositionA: {x: 10, y: 0, z: 12}
-  linkPositionB: {x: 10, y: 3, z: 15}
+  linkPositionB: {x: 10, y: 3, z: 14}
 --- !u!1 &1954663897
 GameObject:
   m_ObjectHideFlags: 0
