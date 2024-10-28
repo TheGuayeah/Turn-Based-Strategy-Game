@@ -24,6 +24,10 @@ public class GridSystemVisual : Singleton<GridSystemVisual>
    private Transform gridSystemVisualSinglePrefab;
    [SerializeField]
    private List<GridVisualType> gridVisualTypes;
+   [SerializeField]
+   private LayerMask obstaclesLayerMask;
+   [SerializeField]
+   private LayerMask floorLayerMask;
 
    private GridSystemVisualSingle[,,] gridSystemVisualSingles;
 
@@ -100,21 +104,26 @@ public class GridSystemVisual : Singleton<GridSystemVisual>
    {
       List<GridPosition> gridPositions = new List<GridPosition>();
 
+      int floorAmount = LevelGrid.Instance.GetFloorAmount();
+
       for (int x = -range; x <= range; x++)
       {
          for (int z = -range; z <= range; z++)
          {
-            GridPosition newGridPosition = gridPosition + new GridPosition(x, z, 0);
-
-            if (!LevelGrid.Instance.IsValidGridPosition(newGridPosition))
+            for (int floor = -floorAmount; floor < floorAmount; floor++)
             {
-               continue;
+               GridPosition newGridPosition = gridPosition + new GridPosition(x, z, floor);
+
+               if (!LevelGrid.Instance.IsValidGridPosition(newGridPosition))
+               {
+                  continue;
+               }
+
+               int testDistance = Math.Abs(x) + Math.Abs(z);
+               if (testDistance > range) continue;
+
+               gridPositions.Add(newGridPosition);
             }
-
-            int testDistance = Math.Abs(x) + Math.Abs(z);
-            if (testDistance > range) continue;
-
-            gridPositions.Add(newGridPosition);
          }
       }
 
@@ -128,9 +137,77 @@ public class GridSystemVisual : Singleton<GridSystemVisual>
 
       foreach (GridPosition gridPosition in gridPositionList)
       {
+         if (!HasFloorAtGridPosition(gridPosition)) continue;
+
+         if (HasObstacleAtGridPosition(gridPosition)) continue;
+
+         if (IsGridPositionBlockedByObstacle(gridPosition)) continue;
+
          gridSystemVisualSingles[gridPosition.x, gridPosition.z, gridPosition.floor].
             Show(GetGridVisualMaterial(gridVisualColor));
       }
+   }
+
+   private bool HasFloorAtGridPosition(GridPosition gridPosition)
+   {
+      float raycasOffsetDistance = 1f;
+
+      Vector3 worldPosition =
+            LevelGrid.Instance.GetWorldPosition(gridPosition);
+
+      bool floorFound = Physics.Raycast(
+         worldPosition + Vector3.up * raycasOffsetDistance,
+         Vector3.down,
+         raycasOffsetDistance * 2,
+         floorLayerMask
+      );
+
+      return floorFound;
+   }
+
+   private bool HasObstacleAtGridPosition(GridPosition gridPosition)
+   {
+      float raycasOffsetDistance = 1f;
+
+      Vector3 worldPosition =
+            LevelGrid.Instance.GetWorldPosition(gridPosition);
+
+      bool obstaclesFound = Physics.Raycast(
+         worldPosition + Vector3.down * raycasOffsetDistance,
+         Vector3.up,
+         raycasOffsetDistance * 2,
+         obstaclesLayerMask
+      );
+
+      return obstaclesFound;
+   }
+
+   private bool IsGridPositionBlockedByObstacle(GridPosition gridPosition)
+   {
+      Unit selectedUnit = UnitActionSystem.Instance.GetSelectedUnit();
+      Vector3 worldPosition =
+            LevelGrid.Instance.GetWorldPosition(gridPosition);
+
+      float unitShoulderHeight = 1.7f;
+      Vector3 unitWorldPosition =
+         LevelGrid.Instance.GetWorldPosition(selectedUnit.GetGridPosition());
+
+      Vector3 shootingOrigin = unitWorldPosition + Vector3.up * unitShoulderHeight;
+
+      Vector3 shootDirection =
+         (worldPosition - unitWorldPosition).normalized;
+
+      float shootingDistance =
+         Vector3.Distance(unitWorldPosition, worldPosition);
+
+      bool isBlockedByObstacle = Physics.Raycast(
+          shootingOrigin,
+          shootDirection,
+          shootingDistance,
+          obstaclesLayerMask | floorLayerMask
+      );
+
+      return isBlockedByObstacle;
    }
 
    private void UpdateGridVisual()

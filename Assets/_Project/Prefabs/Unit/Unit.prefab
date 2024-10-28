@@ -147,7 +147,7 @@ MonoBehaviour:
   rotateSpeed: 25
   obstaclesLayerMask:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 320
 --- !u!114 &-2136026136572576591
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -165,7 +165,7 @@ MonoBehaviour:
   maxThrowDistance: 7
   obstaclesLayerMask:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 320
 --- !u!114 &-1490976279290722358
 MonoBehaviour:
   m_ObjectHideFlags: 0

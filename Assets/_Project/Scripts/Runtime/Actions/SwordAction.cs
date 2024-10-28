@@ -38,7 +38,7 @@ public class SwordAction : BaseAction
             Vector3 aimDirection = (targetUnit.GetWorldPosition() -
                                     unit.GetWorldPosition()).normalized;
 
-            transform.forward = Vector3.Lerp(transform.forward, aimDirection,
+            transform.forward = Vector3.Slerp(transform.forward, aimDirection,
                                  rotateSpeed * Time.deltaTime);
             break;
 

@@ -54,6 +54,33 @@ public abstract class BaseAction : MonoBehaviour
       OnAnyActionCompleted?.Invoke(this, EventArgs.Empty);
    }
 
+   protected bool IsGridPositionBlockedByObstacle(GridPosition gridPosition, LayerMask obstaclesLayerMask)
+   {
+      GridPosition unitGridPosition = unit.GetGridPosition();
+      float unitShoulderHeight = 1.7f;
+
+      Vector3 worldPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
+
+      Vector3 unitWorldPosition = LevelGrid.Instance.GetWorldPosition(unitGridPosition);
+
+      Vector3 throwOrigin = unitWorldPosition + Vector3.up * unitShoulderHeight;
+
+      Vector3 throwDirection =
+         (worldPosition - unitWorldPosition).normalized;
+
+      float shootingDistance =
+         Vector3.Distance(unitWorldPosition, worldPosition);
+
+      bool isBlockedByObstacle = Physics.Raycast(
+         throwOrigin,
+         throwDirection,
+         shootingDistance,
+         obstaclesLayerMask
+      );
+
+      return isBlockedByObstacle;
+   }
+
    public Unit GetUnit()
    {
       return unit;

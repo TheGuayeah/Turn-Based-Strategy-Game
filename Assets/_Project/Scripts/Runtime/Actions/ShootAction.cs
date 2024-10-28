@@ -43,8 +43,9 @@ public class ShootAction : BaseAction
          case State.Aiming:
             Vector3 aimDirection = (targetUnit.GetWorldPosition() - 
                                     unit.GetWorldPosition()).normalized;
+            aimDirection.y = 0f;
 
-            transform.forward = Vector3.Lerp(transform.forward, aimDirection,
+            transform.forward = Vector3.Slerp(transform.forward, aimDirection,
                                  rotateSpeed * Time.deltaTime);
             break;
 
@@ -125,57 +126,46 @@ public class ShootAction : BaseAction
    public List<GridPosition> GetValidActionGridPositions(GridPosition unitGridPosition)
    {
       List<GridPosition> validActionGridPositions = new List<GridPosition>();
+      int floorAmount = LevelGrid.Instance.GetFloorAmount();
 
       for (int x = -maxShootDistance; x <= maxShootDistance; x++)
       {
          for (int z = -maxShootDistance; z <= maxShootDistance; z++)
          {
-            GridPosition offsetGridPosition = new GridPosition(x, z, 0);
-            GridPosition testGridPosition = unitGridPosition + offsetGridPosition;
-
-            if (!LevelGrid.Instance.IsValidGridPosition(testGridPosition))
+            for (int floor = -floorAmount; floor <= floorAmount; floor++)
             {
-               continue;
+               GridPosition offsetGridPosition = new GridPosition(x, z, floor);
+               GridPosition testGridPosition = unitGridPosition + offsetGridPosition;
+
+               if (!LevelGrid.Instance.IsValidGridPosition(testGridPosition))
+               {
+                  continue;
+               }
+
+               int testDistance = Math.Abs(x) + Math.Abs(z);
+               if (testDistance > maxShootDistance) continue; //This position is too far away
+
+               if (!LevelGrid.Instance.IsAnyUnitAtGridPosition(testGridPosition))
+               {
+                  continue; //This position has no Unit.
+               }
+
+               Unit targetUnit = LevelGrid.Instance.GetUnitFromGridPosition(testGridPosition);
+
+               //This EnemyUnit can shoot only FriendlyUnits
+               if (targetUnit.IsEnemy() && unit.IsEnemy()) continue;
+               //This Unit can shoot only enemies
+               //if (targetUnit.IsEnemy() == unit.IsEnemy()) continue;
+
+               if (targetUnit == unit) continue;
+
+               if (IsGridPositionBlockedByObstacle(
+                  testGridPosition,
+                  obstaclesLayerMask
+               )) continue;
+
+               validActionGridPositions.Add(testGridPosition);
             }
-
-            int testDistance = Math.Abs(x) + Math.Abs(z);
-            if (testDistance > maxShootDistance) continue; //This position is too far away
-
-            if (!LevelGrid.Instance.IsAnyUnitAtGridPosition(testGridPosition))
-            {
-               continue; //This position has no Unit.
-            }
-
-            Unit targetUnit = LevelGrid.Instance.GetUnitFromGridPosition(testGridPosition);
-
-            //This EnemyUnit can shoot only FriendlyUnits
-            if (targetUnit.IsEnemy() && unit.IsEnemy()) continue;
-            //This Unit can shoot only enemies
-            //if (targetUnit.IsEnemy() == unit.IsEnemy()) continue;
-
-            if (targetUnit == unit) continue;
-
-            float unitShoulderHeight = 1.7f;
-            Vector3 unitWorldPosition = LevelGrid.Instance.GetWorldPosition(unitGridPosition);
-
-            Vector3 shootingOrigin = unitWorldPosition + Vector3.up * unitShoulderHeight;
-            
-            Vector3 shootDirection =
-               (targetUnit.GetWorldPosition() - unitWorldPosition).normalized;
-
-            float shootingDistance = 
-               Vector3.Distance(unitWorldPosition, targetUnit.GetWorldPosition());
-
-            bool isBlockedByObstacle = Physics.Raycast(
-               shootingOrigin,
-               shootDirection,
-               shootingDistance,
-               obstaclesLayerMask
-            );
-
-            if (isBlockedByObstacle) continue;
-
-            validActionGridPositions.Add(testGridPosition);
          }
       }
 

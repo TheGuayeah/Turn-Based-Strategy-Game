@@ -22,17 +22,17 @@ public class UnitAnimator : MonoBehaviour
 
    private void Awake()
    {
-      if(TryGetComponent<MoveAction>(out MoveAction moveAction))
+      if(TryGetComponent(out MoveAction moveAction))
       {
          moveAction.OnStartMoving += MoveAction_OnStartMoving;
          moveAction.OnStopMoving += MoveAction_OnStopMoving;
          moveAction.OnStartJumping += MoveAction_OnStartJumping;
       }
-      if(TryGetComponent<ShootAction>(out ShootAction shootAction))
+      if(TryGetComponent(out ShootAction shootAction))
       {
          shootAction.OnShoot += ShootAction_OnShoot;
       }
-      if (TryGetComponent<SwordAction>(out SwordAction swordAction))
+      if (TryGetComponent(out SwordAction swordAction))
       {
          swordAction.OnSwordActionStarted += SwordAction_OnSwordActionStarted;
          swordAction.OnSwordActionCompleted += SwordAction_OnSwordActionCompleted;
@@ -75,7 +75,10 @@ public class UnitAnimator : MonoBehaviour
       BulletProjectile bulletProjectile = bulletTransform.GetComponent<BulletProjectile>();
       
       Vector3 shootAtPosition = e.targetUnit.GetWorldPosition();
-      shootAtPosition.y = shootPoint.position.y;
+
+      float unitShoulderHeight = 1.7f;
+
+      shootAtPosition.y += unitShoulderHeight;
       bulletProjectile.Setup(shootAtPosition);
    }
 

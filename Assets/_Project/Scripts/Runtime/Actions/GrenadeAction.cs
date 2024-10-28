@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class GrenadeAction : BaseAction
 {
@@ -34,23 +35,33 @@ public class GrenadeAction : BaseAction
    {
       List<GridPosition> validActionGridPositions = new List<GridPosition>();
       GridPosition unitGridPosition = unit.GetGridPosition();
+      int floorAmount = LevelGrid.Instance.GetFloorAmount();
 
       for (int x = -maxThrowDistance; x <= maxThrowDistance; x++)
       {
          for (int z = -maxThrowDistance; z <= maxThrowDistance; z++)
          {
-            GridPosition offsetGridPosition = new GridPosition(x, z, 0);
-            GridPosition testGridPosition = unitGridPosition + offsetGridPosition;
-
-            if (!LevelGrid.Instance.IsValidGridPosition(testGridPosition))
+            for (int floor = -floorAmount; floor <= floorAmount; floor++)
             {
-               continue;
-            }
+               GridPosition offsetGridPosition = new GridPosition(x, z, floor);
+               GridPosition testGridPosition = unitGridPosition + offsetGridPosition;
 
-            int testDistance = Math.Abs(x) + Math.Abs(z);
-            if (testDistance > maxThrowDistance) continue; //This position is too far away
+               if (!LevelGrid.Instance.IsValidGridPosition(testGridPosition))
+               {
+                  continue;
+               }
 
-            validActionGridPositions.Add(testGridPosition);
+               int testDistance = Math.Abs(x) + Math.Abs(z);
+
+               if (testDistance > maxThrowDistance) continue; //This position is too far away
+
+               if (IsGridPositionBlockedByObstacle(
+                  testGridPosition, 
+                  obstaclesLayerMask
+               )) continue;
+
+               validActionGridPositions.Add(testGridPosition);
+            }            
          }
       }
 
