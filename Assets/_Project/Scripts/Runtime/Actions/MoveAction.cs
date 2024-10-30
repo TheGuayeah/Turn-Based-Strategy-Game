@@ -61,8 +61,9 @@ public class MoveAction : BaseAction
                               rotateSpeed * Time.deltaTime);
 
          transform.position += moveDirection * moveSpeed * Time.deltaTime;
-
       }
+
+      CameraController.Instance.FollowSelectedUnit();
 
       float distance = Vector3.Distance(transform.position, targetPosition);
 
@@ -115,6 +116,7 @@ public class MoveAction : BaseAction
          positons.Add(LevelGrid.Instance.GetWorldPosition(pathPosition));
       }
 
+      CameraController.Instance.MoveToSelectedUnit();
       OnStartMoving?.Invoke(this, EventArgs.Empty);
 
       ActionStart(onMoveComplete);

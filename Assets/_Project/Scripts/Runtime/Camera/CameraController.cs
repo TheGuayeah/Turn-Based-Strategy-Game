@@ -2,7 +2,7 @@ using Cinemachine;
 using System.Collections;
 using UnityEngine;
 
-public class CameraController : MonoBehaviour
+public class CameraController : Singleton<CameraController>
 {
    private const float MIN_FOLLOW_Y_OFFSET = 2f;
    private const float MAX_FOLLOW_Y_OFFSET = 22f;
@@ -24,6 +24,11 @@ public class CameraController : MonoBehaviour
    //[SerializeField]
    private Vector3 targetFollowOffset;
 
+   protected override void Awake()
+   {
+      base.Awake();
+   }
+
    private void Start()
    {
       transposer = virtualCamera.GetCinemachineComponent<CinemachineTransposer>();
@@ -43,19 +48,23 @@ public class CameraController : MonoBehaviour
       }
    }
 
-   private void MoveToSelectedUnit()
+   public void FollowSelectedUnit()
+   {
+      Unit selectedunit = UnitActionSystem.Instance.GetSelectedUnit();
+
+      transform.position = Vector3.MoveTowards(
+         transform.position,
+         selectedunit.transform.position,
+         moveSpeed * Time.deltaTime
+      );
+   }
+
+   public void MoveToSelectedUnit()
    {
       Unit selectedunit = UnitActionSystem.Instance.GetSelectedUnit();
       Vector3 endPosition = selectedunit.transform.position;
 
       StartCoroutine(LerpPosition(endPosition, 0.7f));
-
-      if (transform.position == endPosition)
-      {
-         Debug.Log("MoveToSelectedUnit");
-         UnitActionSystem.Instance.ClearUnitBeingSelected();
-         transform.SetParent(selectedunit.transform);
-      }
    }
 
    private IEnumerator LerpPosition(Vector3 targetPosition, float duration)
@@ -75,6 +84,8 @@ public class CameraController : MonoBehaviour
          yield return null;
       }
       transform.position = targetPosition;
+
+      UnitActionSystem.Instance.ClearUnitBeingSelected();
    }
 
    private void HandleMovement()

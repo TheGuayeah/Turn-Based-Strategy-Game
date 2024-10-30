@@ -130,7 +130,11 @@ public class GridSystemVisual : Singleton<GridSystemVisual>
       ShowGridPositionList(gridPositions, gridVisualColor);
    }
 
-   public void ShowGridPositionList(List<GridPosition> gridPositionList, GridVisualColor gridVisualColor)
+   public void ShowGridPositionList(
+      List<GridPosition> gridPositionList, 
+      GridVisualColor gridVisualColor,
+      BaseAction? baseAction = null
+   )
    {
       Unit selectedUnit = UnitActionSystem.Instance.GetSelectedUnit();
       if (selectedUnit.IsEnemy()) return;
@@ -141,7 +145,10 @@ public class GridSystemVisual : Singleton<GridSystemVisual>
 
          if (HasObstacleAtGridPosition(gridPosition)) continue;
 
-         if (IsGridPositionBlockedByObstacle(gridPosition)) continue;
+         if (baseAction.GetType() != typeof(MoveAction))
+         {
+            if (IsGridPositionBlockedByObstacle(gridPosition)) continue;
+         }         
 
          gridSystemVisualSingles[gridPosition.x, gridPosition.z, gridPosition.floor].
             Show(GetGridVisualMaterial(gridVisualColor));
@@ -250,7 +257,11 @@ public class GridSystemVisual : Singleton<GridSystemVisual>
             gridVisualColor = GridVisualColor.Blue;
             break;
       }
-      ShowGridPositionList(selectedAction.GetValidActionGridPositions(), gridVisualColor);
+      ShowGridPositionList(
+         selectedAction.GetValidActionGridPositions(), 
+         gridVisualColor,
+         selectedAction
+      );
    }
 
    private void UnitActionSystem_OnSelectedActionChanged(object sender, EventArgs e)
