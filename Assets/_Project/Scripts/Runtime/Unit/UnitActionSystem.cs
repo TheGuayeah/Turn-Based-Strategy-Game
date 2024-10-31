@@ -7,6 +7,7 @@ public class UnitActionSystem : Singleton<UnitActionSystem>
    public event EventHandler OnSelectedUnitChanged;
    public event EventHandler OnSelectedActionChanged;
    public event EventHandler OnActionStarted;
+   public event EventHandler OnBusyChanged;
 
    [SerializeField]
    private Unit selectedUnit;
@@ -42,7 +43,7 @@ public class UnitActionSystem : Singleton<UnitActionSystem>
       if (InputManager.Instance.IsMouseButtonDownThisFrame(0))
       {
          GridPosition mouseGridPosition =
-            LevelGrid.Instance.GetGridPosition(MouseWorld.GetPosition());
+            LevelGrid.Instance.GetGridPosition(MouseWorld.GetPositionOnlyHitVisible());
 
          if (!selectedAction.IsValidActionGridPosition(mouseGridPosition)) return;
 
@@ -58,11 +59,13 @@ public class UnitActionSystem : Singleton<UnitActionSystem>
    private void SetBusy()
    {
       isBusy = true;
+      OnBusyChanged?.Invoke(this, EventArgs.Empty);
    }
 
    private void ClearBusy()
    {
       isBusy = false;
+      OnBusyChanged?.Invoke(this, EventArgs.Empty);
    }
 
    private bool TryHandleUnitSelection()
