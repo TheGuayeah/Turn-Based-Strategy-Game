@@ -133,7 +133,7 @@ public class GridSystemVisual : Singleton<GridSystemVisual>
    public void ShowGridPositionList(
       List<GridPosition> gridPositionList, 
       GridVisualColor gridVisualColor,
-      BaseAction? baseAction = null
+      BaseAction baseAction = null
    )
    {
       Unit selectedUnit = UnitActionSystem.Instance.GetSelectedUnit();

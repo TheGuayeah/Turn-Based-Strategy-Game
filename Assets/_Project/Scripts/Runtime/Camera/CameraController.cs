@@ -122,4 +122,9 @@ public class CameraController : Singleton<CameraController>
          zoomSpeed * Time.deltaTime
       );
    }
+
+   public float GetCameraHeight()
+   {
+      return targetFollowOffset.y;
+   }
 }
