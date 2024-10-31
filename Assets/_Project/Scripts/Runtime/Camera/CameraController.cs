@@ -31,6 +31,7 @@ public class CameraController : Singleton<CameraController>
 
    private void Start()
    {
+      UnitActionSystem.Instance.OnSelectedUnitChanged += Instance_OnSelectedUnitChanged;
       transposer = virtualCamera.GetCinemachineComponent<CinemachineTransposer>();
       targetFollowOffset = transposer.m_FollowOffset;
       MoveToSelectedUnit();
@@ -41,30 +42,32 @@ public class CameraController : Singleton<CameraController>
       HandleMovement();
       HandleRotation();
       HandleZoom();
+   }
 
-      if (UnitActionSystem.Instance.IsUnitBeingSelected())
-      {
-         MoveToSelectedUnit();
-      }
+   private void Instance_OnSelectedUnitChanged(object sender, System.EventArgs e)
+   {
+      MoveToSelectedUnit();
    }
 
    public void FollowSelectedUnit()
    {
-      Unit selectedunit = UnitActionSystem.Instance.GetSelectedUnit();
+      Unit selectedUnit = UnitActionSystem.Instance.GetSelectedUnit();
 
       transform.position = Vector3.MoveTowards(
          transform.position,
-         selectedunit.transform.position,
+         selectedUnit.transform.position,
          moveSpeed * Time.deltaTime
       );
    }
 
    public void MoveToSelectedUnit()
    {
-      Unit selectedunit = UnitActionSystem.Instance.GetSelectedUnit();
-      Vector3 endPosition = selectedunit.transform.position;
+      Unit selectedUnit = UnitActionSystem.Instance.GetSelectedUnit();
+      Vector3 endPosition = selectedUnit.transform.position;
 
-      StartCoroutine(LerpPosition(endPosition, 0.7f));
+      if (transform.position == selectedUnit.transform.position) return;
+
+      StartCoroutine(LerpPosition(endPosition, 0.5f));
    }
 
    private IEnumerator LerpPosition(Vector3 targetPosition, float duration)
@@ -84,8 +87,6 @@ public class CameraController : Singleton<CameraController>
          yield return null;
       }
       transform.position = targetPosition;
-
-      UnitActionSystem.Instance.ClearUnitBeingSelected();
    }
 
    private void HandleMovement()
