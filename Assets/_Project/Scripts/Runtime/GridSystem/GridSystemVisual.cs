@@ -146,7 +146,7 @@ public class GridSystemVisual : Singleton<GridSystemVisual>
 
          if (HasObstacleAtGridPosition(gridPosition)) continue;
 
-         if (baseAction.GetType() != typeof(MoveAction))
+         if (baseAction != null && baseAction.GetType() != typeof(MoveAction))
          {
             if (IsGridPositionBlockedByObstacle(gridPosition)) continue;
          }         
